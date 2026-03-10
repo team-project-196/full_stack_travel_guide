@@ -1,0 +1,191 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Trip Planner | TravelGuide</title>
+
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Leaflet Map -->
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+  </head>
+
+  <body>
+    <!-- HEADER -->
+
+    <header class="header">
+      <div class="container nav-container">
+        <div class="logo">
+          <h1>TravelGuide</h1>
+        </div>
+
+        <nav class="nav">
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="destinations.html">Destinations</a></li>
+            <li><a href="trip-planner.html" class="active">Trip Planner</a></li>
+            <li><a href="#" id="navBookmarks">Bookmarks</a></li>
+            <li><a href="#" id="navBookings">Bookings</a></li>
+
+            <li id="authLinks" class="auth-links">
+              <a href="login.html" class="btn-login">Login</a>
+              <a href="register.html" class="btn-register">Register</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- PAGE HEADER -->
+
+    <section class="page-header">
+      <div class="container">
+        <h2>Plan Your Trip</h2>
+
+        <p>
+          Estimate travel distance, transport cost and activity expenses before
+          your journey.
+        </p>
+      </div>
+    </section>
+
+    <!-- TRIP PLANNER -->
+
+    <section class="trip-planner">
+      <div class="container planner-container">
+        <!-- LEFT SIDE : FORM -->
+
+        <div class="planner-form">
+          <h3>Trip Details</h3>
+
+          <form id="tripForm">
+            <div class="form-group">
+              <label for="startLocation">Starting City</label>
+
+              <select id="startLocation" required>
+                <option value="">Select Starting City</option>
+
+                <option value="chennai">Chennai</option>
+                <option value="mumbai">Mumbai</option>
+                <option value="delhi">Delhi</option>
+                <option value="bangalore">Bangalore</option>
+                <option value="hyderabad">Hyderabad</option>
+                <option value="kolkata">Kolkata</option>
+                <option value="jaipur">Jaipur</option>
+                <option value="kochi">Kochi</option>
+                <option value="goa">Goa</option>
+                <option value="ahmedabad">Ahmedabad</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="destinationSelect">Destination</label>
+
+              <select id="destinationSelect" required>
+                <option value="">Select Destination</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Available Activities</label>
+
+              <div id="activitiesContainer">
+                <p>Select a destination to view activities.</p>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary full-width">
+              Calculate Trip Cost
+            </button>
+          </form>
+        </div>
+
+        <!-- RIGHT SIDE : RESULTS -->
+
+        <div class="planner-results">
+          <h3>Trip Overview</h3>
+
+          <div id="tripSummary" class="trip-summary">
+            <p>
+              Distance:
+              <span id="distanceValue">-</span>
+            </p>
+
+            <p>
+              Transport Options:
+              <span id="transportCost">-</span>
+            </p>
+
+            <p>
+              Activities Cost:
+              <span id="activityCost">-</span>
+            </p>
+
+            <p class="total-cost">
+              Total Trip Cost:
+              <span id="totalCost">-</span>
+            </p>
+          </div>
+
+          <div id="map" class="trip-map" style="height: 350px"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+      <div class="container footer-container">
+        <div class="footer-logo">
+          <h2>TravelGuide</h2>
+
+          <p>Plan smarter trips with distance and cost insights.</p>
+        </div>
+
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+
+          <ul>
+            <li><a href="destinations.html">Destinations</a></li>
+            <li><a href="trip-planner.html">Trip Planner</a></li>
+            <li><a href="bookmarks.html">Bookmarks</a></li>
+            <li><a href="bookings.html">Bookings</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-contact">
+          <h3>Contact</h3>
+
+          <p>Email: support@travelguide.com</p>
+          <p>Phone: +91 98765 43210</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 TravelGuide. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Leaflet JS -->
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- JS -->
+
+    <script type="module" src="js/tripPlanner.js"></script>
+  </body>
+</html>

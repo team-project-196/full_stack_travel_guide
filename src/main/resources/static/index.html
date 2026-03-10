@@ -1,0 +1,177 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>TravelGuide | Explore the World</title>
+
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <header class="header">
+      <div class="container nav-container">
+        <div class="logo">
+          <h1>TravelGuide</h1>
+        </div>
+
+        <nav class="nav">
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="destinations.html">Destinations</a></li>
+            <li><a href="trip-planner.html">Trip Planner</a></li>
+            <li><a href="bookmarks.html">Bookmarks</a></li>
+            <li><a href="bookings.html">Bookings</a></li>
+
+            <li id="authLinks" class="auth-links">
+              <a href="login.html" class="btn-login">Login</a>
+              <a href="register.html" class="btn-register">Register</a>
+            </li>
+
+            <li id="logoutContainer" style="display: none">
+              <button id="logoutBtn" class="btn-login">Logout</button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-overlay"></div>
+
+      <div class="hero-content container">
+        <h2>Discover Amazing Places Around the World</h2>
+
+        <p>
+          Plan your trips, explore destinations, bookmark your favorites and
+          create unforgettable travel experiences.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="destinations.html" class="btn-primary">
+            Explore Destinations
+          </a>
+
+          <a href="trip-planner.html" class="btn-secondary"> Plan Your Trip </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container">
+        <h2 class="section-title">Why Choose TravelGuide?</h2>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <h3>Explore Destinations</h3>
+            <p>
+              Browse beautiful destinations from around the world with detailed
+              descriptions and travel insights.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h3>Trip Planner</h3>
+            <p>
+              Calculate travel distance, transport costs and activities with our
+              smart planner.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h3>Bookmark Favorites</h3>
+            <p>
+              Save destinations you love and access them anytime from your
+              personal dashboard.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h3>Secure Booking</h3>
+            <p>
+              Book your trips easily and manage all your travel plans in one
+              place.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="popular-destinations">
+      <div class="container">
+        <h2 class="section-title">Popular Destinations</h2>
+
+        <p class="section-subtitle">
+          Explore some of the most loved travel locations.
+        </p>
+
+        <div id="popular-destination-list" class="destination-grid"></div>
+
+        <div class="view-more">
+          <a href="destinations.html" class="btn-primary">
+            View All Destinations
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container">
+        <h2>Start Your Journey Today</h2>
+
+        <p>
+          Create an account and begin planning your dream trips with
+          TravelGuide.
+        </p>
+
+        <a href="register.html" class="btn-primary"> Get Started </a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer-container">
+        <div class="footer-logo">
+          <h2>TravelGuide</h2>
+          <p>
+            Your smart companion for discovering and planning amazing travel
+            experiences.
+          </p>
+        </div>
+
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+
+          <ul>
+            <li><a href="destinations.html">Destinations</a></li>
+            <li><a href="trip-planner.html">Trip Planner</a></li>
+            <li><a href="bookmarks.html">Bookmarks</a></li>
+            <li><a href="bookings.html">Bookings</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-contact">
+          <h3>Contact</h3>
+
+          <p>Email: support@travelguide.com</p>
+          <p>Phone: +91 98765 43210</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 TravelGuide. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>

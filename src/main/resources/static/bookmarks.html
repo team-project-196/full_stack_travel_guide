@@ -1,0 +1,115 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Bookmarks | TravelGuide</title>
+
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/cards.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- HEADER -->
+
+    <header class="header">
+      <div class="container nav-container">
+        <div class="logo">
+          <h1>TravelGuide</h1>
+        </div>
+
+        <nav class="nav">
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="destinations.html">Destinations</a></li>
+            <li><a href="trip-planner.html">Trip Planner</a></li>
+            <li><a href="bookmarks.html" class="active">Bookmarks</a></li>
+            <li><a href="bookings.html">Bookings</a></li>
+
+            <li id="authLinks" class="auth-links">
+              <a href="login.html" class="btn-login">Login</a>
+              <a href="register.html" class="btn-register">Register</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- PAGE HEADER -->
+
+    <section class="page-header">
+      <div class="container">
+        <h2>Your Bookmarked Destinations</h2>
+
+        <p>
+          Quickly access the destinations you saved for future travel plans.
+        </p>
+      </div>
+    </section>
+
+    <!-- BOOKMARKS SECTION -->
+
+    <section class="bookmarks-section">
+      <div class="container">
+        <div id="bookmarksContainer" class="destination-grid">
+          <!-- Bookmarked destinations will be loaded here -->
+        </div>
+
+        <div id="loadingBookmarks" class="loading-message">
+          Loading your bookmarks...
+        </div>
+
+        <div id="noBookmarks" class="no-results">
+          You haven't bookmarked any destinations yet.
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+      <div class="container footer-container">
+        <div class="footer-logo">
+          <h2>TravelGuide</h2>
+
+          <p>Your smart companion for planning amazing travel experiences.</p>
+        </div>
+
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+
+          <ul>
+            <li><a href="destinations.html">Destinations</a></li>
+            <li><a href="trip-planner.html">Trip Planner</a></li>
+            <li><a href="bookmarks.html">Bookmarks</a></li>
+            <li><a href="bookings.html">Bookings</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-contact">
+          <h3>Contact</h3>
+
+          <p>Email: support@travelguide.com</p>
+          <p>Phone: +91 98765 43210</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 TravelGuide. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+
+    <script type="module" src="js/bookmarks.js"></script>
+  </body>
+</html>

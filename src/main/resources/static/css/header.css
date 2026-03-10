@@ -1,0 +1,113 @@
+/* ============================= */
+/* HEADER */
+/* ============================= */
+
+.header {
+background: white;
+border-bottom: 1px solid var(--border-color);
+position: sticky;
+top: 0;
+z-index: 1000;
+}
+
+/* ============================= */
+/* LOGO */
+/* ============================= */
+
+.logo h1 {
+font-size: 22px;
+font-weight: 600;
+color: var(--primary-color);
+}
+
+/* ============================= */
+/* NAVIGATION */
+/* ============================= */
+
+.nav-links {
+display: flex;
+align-items: center;
+gap: 20px;
+list-style: none;
+}
+
+/* ============================= */
+/* NAV LINKS */
+/* ============================= */
+
+.nav-links a {
+font-size: 14px;
+font-weight: 500;
+color: var(--text-dark);
+padding: 8px 10px;
+border-radius: 4px;
+transition: 0.3s;
+}
+
+.nav-links a:hover {
+background: #f1f5ff;
+color: var(--primary-color);
+}
+
+/* ============================= */
+/* ACTIVE PAGE */
+/* ============================= */
+
+.nav-links a.active {
+color: var(--primary-color);
+font-weight: 600;
+}
+
+/* ============================= */
+/* AUTH LINKS */
+/* ============================= */
+
+.auth-links {
+display: flex;
+gap: 10px;
+margin-left: 15px;
+}
+
+/* ============================= */
+/* LOGIN BUTTON */
+/* ============================= */
+
+.btn-login {
+padding: 8px 14px;
+border-radius: 6px;
+border: 1px solid var(--primary-color);
+color: var(--primary-color);
+font-size: 14px;
+transition: 0.3s;
+}
+
+.btn-login:hover {
+background: var(--primary-color);
+color: white;
+}
+
+/* ============================= */
+/* REGISTER BUTTON */
+/* ============================= */
+
+.btn-register {
+padding: 8px 14px;
+border-radius: 6px;
+background: var(--primary-color);
+color: white;
+font-size: 14px;
+transition: 0.3s;
+}
+
+.btn-register:hover {
+background: #1a68d1;
+}
+
+/* ============================= */
+/* MOBILE NAV SUPPORT */
+/* ============================= */
+
+.nav {
+display: flex;
+align-items: center;
+}

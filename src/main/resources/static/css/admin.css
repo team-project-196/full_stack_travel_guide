@@ -1,0 +1,105 @@
+/* ============================= */
+/* ADMIN FORM SECTION */
+/* ============================= */
+
+.admin-form-section {
+background: var(--background-light);
+padding-top: 40px;
+}
+
+/* ============================= */
+/* ADMIN FORM CARD */
+/* ============================= */
+
+.admin-form-card {
+background: var(--background-white);
+padding: 30px;
+border-radius: 10px;
+border: 1px solid var(--border-color);
+max-width: 550px;
+margin: auto;
+}
+
+.admin-form-card h3 {
+text-align: center;
+margin-bottom: 20px;
+}
+
+/* ============================= */
+/* ADMIN DESTINATIONS SECTION */
+/* ============================= */
+
+.admin-destinations {
+margin-top: 40px;
+}
+
+.admin-destinations h3 {
+margin-bottom: 25px;
+text-align: center;
+}
+
+/* ============================= */
+/* ADMIN DESTINATION CARD EXTRA */
+/* ============================= */
+
+.admin-destinations .destination-card {
+position: relative;
+}
+
+/* ============================= */
+/* ADMIN ACTION BUTTONS */
+/* ============================= */
+
+.admin-actions {
+display: flex;
+gap: 10px;
+margin-top: 12px;
+}
+
+.admin-actions button {
+flex: 1;
+padding: 8px;
+border-radius: 6px;
+font-size: 13px;
+cursor: pointer;
+border: none;
+transition: 0.2s;
+}
+
+/* EDIT BUTTON */
+
+.btn-edit {
+background: #ffc107;
+color: #333;
+}
+
+.btn-edit:hover {
+background: #e0a800;
+}
+
+/* DELETE BUTTON */
+
+.btn-delete {
+background: #dc3545;
+color: white;
+}
+
+.btn-delete:hover {
+background: #c82333;
+}
+
+/* ============================= */
+/* ADMIN MESSAGE */
+/* ============================= */
+
+#adminMessage {
+text-align: center;
+}
+
+/* ============================= */
+/* ADMIN MODAL FORM */
+/* ============================= */
+
+#editModal form {
+margin-top: 10px;
+}

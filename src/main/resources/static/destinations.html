@@ -1,0 +1,160 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Destinations | TravelGuide</title>
+
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/cards.css" />
+    <link rel="stylesheet" href="css/modal.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+
+    <!-- Google Font -->
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Leaflet Map CSS -->
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+  </head>
+
+  <body>
+    <!-- HEADER -->
+
+    <header class="header">
+      <div class="container nav-container">
+        <div class="logo">
+          <h1>TravelGuide</h1>
+        </div>
+
+        <nav class="nav">
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="destinations.html" class="active">Destinations</a></li>
+            <li><a href="trip-planner.html">Trip Planner</a></li>
+            <li><a href="#" id="navBookmarks">Bookmarks</a></li>
+            <li><a href="#" id="navBookings">Bookings</a></li>
+
+            <li id="authLinks" class="auth-links">
+              <a href="login.html" class="btn-login">Login</a>
+              <a href="register.html" class="btn-register">Register</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- PAGE HEADER -->
+
+    <section class="page-header">
+      <div class="container">
+        <h2>Explore Destinations</h2>
+
+        <p>
+          Discover beautiful places around the world and start planning your
+          next adventure.
+        </p>
+      </div>
+    </section>
+
+    <!-- SEARCH + FILTER -->
+
+    <section class="destination-controls">
+      <div class="container controls-container">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search destinations..."
+          class="search-box"
+        />
+
+        <select id="categoryFilter" class="filter-dropdown">
+          <option value="">All Categories</option>
+          <option value="Beach">Beach</option>
+          <option value="Mountain">Mountain</option>
+          <option value="City">City</option>
+          <option value="Nature">Nature</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- DESTINATIONS GRID -->
+
+    <section class="destinations-section">
+      <div class="container">
+        <div id="destinationsContainer" class="destination-grid">
+          <!-- Cards injected by JS -->
+        </div>
+
+        <div id="loadingMessage" class="loading-message">
+          Loading destinations...
+        </div>
+
+        <div id="noResults" class="no-results">No destinations found.</div>
+      </div>
+    </section>
+
+    <!-- DESTINATION MODAL -->
+
+    <div id="destinationModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" id="closeModal">×</span>
+
+        <div id="modalBody">
+          <!-- Destination details inserted by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+      <div class="container footer-container">
+        <div class="footer-logo">
+          <h2>TravelGuide</h2>
+          <p>Explore the world with smart travel planning.</p>
+        </div>
+
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+
+          <ul>
+            <li><a href="destinations.html">Destinations</a></li>
+            <li><a href="trip-planner.html">Trip Planner</a></li>
+            <li><a href="bookmarks.html">Bookmarks</a></li>
+            <li><a href="bookings.html">Bookings</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-contact">
+          <h3>Contact</h3>
+
+          <p>Email: support@travelguide.com</p>
+          <p>Phone: +91 98765 43210</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 TravelGuide. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Leaflet JS -->
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Page JS -->
+
+    <script type="module" src="js/destinations.js"></script>
+  </body>
+</html>

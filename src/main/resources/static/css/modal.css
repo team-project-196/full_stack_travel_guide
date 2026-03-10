@@ -1,0 +1,94 @@
+/* ============================= */
+/* MODAL BACKGROUND */
+/* ============================= */
+
+.modal {
+display: none;
+position: fixed;
+z-index: 2000;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+overflow: auto;
+background: rgba(0, 0, 0, 0.6);
+}
+
+/* ============================= */
+/* MODAL CONTENT */
+/* ============================= */
+
+.modal-content {
+background: var(--background-white);
+margin: 8% auto;
+padding: 25px;
+border-radius: 10px;
+width: 90%;
+max-width: 600px;
+position: relative;
+animation: modalFade 0.3s ease;
+}
+
+/* ============================= */
+/* MODAL ANIMATION */
+/* ============================= */
+
+@keyframes modalFade {
+from {
+opacity: 0;
+transform: translateY(-20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+/* ============================= */
+/* CLOSE BUTTON */
+/* ============================= */
+
+.close-btn {
+position: absolute;
+right: 15px;
+top: 12px;
+font-size: 24px;
+cursor: pointer;
+color: var(--text-light);
+}
+
+.close-btn:hover {
+color: var(--text-dark);
+}
+
+/* ============================= */
+/* MODAL BODY CONTENT */
+/* ============================= */
+
+#modalBody img {
+width: 100%;
+border-radius: 8px;
+margin-bottom: 15px;
+}
+
+#modalBody h3 {
+margin-bottom: 8px;
+}
+
+#modalBody p {
+margin-bottom: 10px;
+}
+
+/* ============================= */
+/* MODAL ACTION BUTTONS */
+/* ============================= */
+
+.modal-actions {
+margin-top: 15px;
+display: flex;
+gap: 10px;
+}
+
+.modal-actions button {
+flex: 1;
+}

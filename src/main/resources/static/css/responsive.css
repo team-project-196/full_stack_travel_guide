@@ -1,0 +1,134 @@
+/* =========================
+   TABLETS (max-width: 1024px)
+========================= */
+
+@media (max-width: 1024px) {
+
+    .container {
+        width: 90%;
+    }
+
+    .destinations-grid,
+    .bookmarks-grid,
+    .bookings-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .trip-planner-container {
+        flex-direction: column;
+    }
+
+    .trip-form,
+    .trip-results {
+        width: 100%;
+    }
+
+    .admin-dashboard {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    header nav {
+        gap: 15px;
+    }
+}
+
+
+/* =========================
+   MOBILE DEVICES (max-width: 768px)
+========================= */
+
+@media (max-width: 768px) {
+
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+    }
+
+    header nav {
+        flex-direction: column;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    header nav a {
+        padding: 10px 0;
+        width: 100%;
+    }
+
+    .hero {
+        padding: 60px 20px;
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: 28px;
+    }
+
+    .destinations-grid,
+    .bookmarks-grid,
+    .bookings-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card img {
+        height: 180px;
+    }
+
+    .form-container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .trip-planner-container {
+        flex-direction: column;
+    }
+
+    .admin-dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-content {
+        width: 90%;
+        margin: 20% auto;
+    }
+}
+
+
+/* =========================
+   SMALL MOBILE DEVICES (max-width: 480px)
+========================= */
+
+@media (max-width: 480px) {
+
+    .hero h1 {
+        font-size: 22px;
+    }
+
+    .hero p {
+        font-size: 14px;
+    }
+
+    .card h3 {
+        font-size: 16px;
+    }
+
+    .card p {
+        font-size: 14px;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .modal-content {
+        padding: 15px;
+    }
+
+    footer {
+        text-align: center;
+        font-size: 14px;
+    }
+}

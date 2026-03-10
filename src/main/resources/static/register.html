@@ -1,0 +1,155 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Register | TravelGuide</title>
+
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/forms.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- HEADER -->
+
+    <header class="header">
+      <div class="container nav-container">
+        <div class="logo">
+          <h1>TravelGuide</h1>
+        </div>
+
+        <nav class="nav">
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="destinations.html">Destinations</a></li>
+
+            <li id="authLinks" class="auth-links">
+              <a href="login.html" class="btn-login">Login</a>
+              <a href="register.html" class="btn-register active">Register</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- REGISTER SECTION -->
+
+    <section class="auth-section">
+      <div class="container auth-container">
+        <div class="auth-card">
+          <h2>Create Your Account</h2>
+
+          <p class="auth-subtitle">
+            Join TravelGuide and start planning your dream trips.
+          </p>
+
+          <form id="registerForm">
+            <div class="form-group">
+              <label for="name">Full Name</label>
+
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter your full name"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Create a password"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword">Confirm Password</label>
+
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="Confirm your password"
+                required
+              />
+            </div>
+
+            <button type="submit" class="btn-primary full-width">
+              Create Account
+            </button>
+
+            <div id="registerMessage" class="form-message"></div>
+          </form>
+
+          <p class="auth-switch">
+            Already have an account? <a href="login.html">Login here</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+      <div class="container footer-container">
+        <div class="footer-logo">
+          <h2>TravelGuide</h2>
+          <p>Explore the world with smart travel planning.</p>
+        </div>
+
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+
+          <ul>
+            <li><a href="destinations.html">Destinations</a></li>
+            <li><a href="trip-planner.html">Trip Planner</a></li>
+            <li><a href="bookmarks.html">Bookmarks</a></li>
+            <li><a href="bookings.html">Bookings</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-contact">
+          <h3>Contact</h3>
+
+          <p>Email: support@travelguide.com</p>
+          <p>Phone: +91 98765 43210</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 TravelGuide. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+
+    <script type="module" src="js/auth.js"></script>
+  </body>
+</html>

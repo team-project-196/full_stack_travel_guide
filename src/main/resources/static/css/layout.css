@@ -1,0 +1,219 @@
+/* ============================= */
+/* CONTAINER */
+/* ============================= */
+
+.container {
+width: 90%;
+max-width: 1200px;
+margin: auto;
+}
+
+/* ============================= */
+/* SECTION SPACING */
+/* ============================= */
+
+section {
+padding: 60px 0;
+}
+
+/* ============================= */
+/* NAVBAR LAYOUT */
+/* ============================= */
+
+.nav-container {
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+/* ============================= */
+/* HERO SECTION */
+/* ============================= */
+
+.hero {
+position: relative;
+height: 80vh;
+background: linear-gradient(
+rgba(0,0,0,0.5),
+rgba(0,0,0,0.5)
+),
+url("../assets/images/hero.jpg") center/cover no-repeat;
+
+display: flex;
+align-items: center;
+text-align: center;
+color: white;
+
+}
+
+.hero-content {
+width: 100%;
+}
+
+.hero-content h2 {
+font-size: 42px;
+margin-bottom: 15px;
+color: white;
+}
+
+.hero-content p {
+max-width: 600px;
+margin: auto;
+margin-bottom: 25px;
+color: #f1f1f1;
+}
+
+.hero-buttons {
+display: flex;
+justify-content: center;
+gap: 15px;
+}
+
+/* ============================= */
+/* FEATURES GRID */
+/* ============================= */
+
+.features-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+gap: 25px;
+}
+
+.feature-card {
+background: white;
+padding: 25px;
+border-radius: 8px;
+border: 1px solid #eee;
+text-align: center;
+transition: 0.3s;
+}
+
+.feature-card:hover {
+transform: translateY(-5px);
+}
+
+.feature-card h3 {
+margin-bottom: 10px;
+}
+
+/* ============================= */
+/* DESTINATION GRID */
+/* ============================= */
+
+.destination-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 25px;
+}
+
+/* ============================= */
+/* DESTINATION CONTROLS */
+/* ============================= */
+
+.controls-container {
+display: flex;
+justify-content: space-between;
+gap: 20px;
+flex-wrap: wrap;
+}
+
+.search-box {
+flex: 1;
+padding: 10px;
+border-radius: 6px;
+border: 1px solid #ccc;
+}
+
+.filter-dropdown {
+padding: 10px;
+border-radius: 6px;
+border: 1px solid #ccc;
+}
+
+/* ============================= */
+/* TRIP PLANNER LAYOUT */
+/* ============================= */
+
+.planner-container {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 30px;
+}
+
+.planner-form {
+background: white;
+padding: 25px;
+border-radius: 8px;
+border: 1px solid #eee;
+}
+
+.planner-results {
+background: white;
+padding: 25px;
+border-radius: 8px;
+border: 1px solid #eee;
+}
+
+.trip-summary p {
+margin-bottom: 10px;
+}
+
+.total-cost {
+font-weight: 600;
+font-size: 18px;
+}
+
+.trip-map {
+height: 350px;
+margin-top: 20px;
+border-radius: 8px;
+overflow: hidden;
+}
+
+/* ============================= */
+/* ADMIN LAYOUT */
+/* ============================= */
+
+.admin-form-card {
+background: white;
+padding: 25px;
+border-radius: 8px;
+border: 1px solid #eee;
+max-width: 500px;
+margin: auto;
+}
+
+.admin-destinations h3 {
+margin-bottom: 25px;
+}
+
+/* ============================= */
+/* AUTH PAGE LAYOUT */
+/* ============================= */
+
+.auth-section {
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.auth-container {
+width: 100%;
+max-width: 400px;
+}
+
+.auth-card {
+background: white;
+padding: 35px;
+border-radius: 8px;
+border: 1px solid #eee;
+text-align: center;
+}
+
+.auth-card h2 {
+margin-bottom: 10px;
+}
+
+.auth-subtitle {
+margin-bottom: 25px;
+}
