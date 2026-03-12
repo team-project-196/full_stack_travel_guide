@@ -34,7 +34,7 @@ public class AuthController {
     public AuthResponse signup(@Valid @RequestBody SignupRequest request) {
 
         if (userRepository.existsByEmail(request.getEmail())) {
-            return new AuthResponse(null, "Email already exists");
+            return new AuthResponse(null, "Email already exists", null);
         }
 
         User user = new User();
@@ -47,7 +47,9 @@ public class AuthController {
 
         String token = jwtService.generateToken(user.getEmail());
 
-        return new AuthResponse(token, "Signup successful");
+        AuthResponse response = new AuthResponse(token, "Signup successful");
+        response.setRole(user.getRole().toString());
+        return response;
     }
 
     @PostMapping("/login")
@@ -59,11 +61,13 @@ public class AuthController {
         if (user == null ||
                 !passwordEncoder.matches(request.getPassword(), user.getPassword())) {
 
-            return new AuthResponse(null, "Invalid credentials");
+            return new AuthResponse(null, "Invalid credentials", null);
         }
 
         String token = jwtService.generateToken(user.getEmail());
 
-        return new AuthResponse(token, "Login successful");
+        AuthResponse response = new AuthResponse(token, "Login successful");
+        response.setRole(user.getRole().toString());
+        return response;
     }
 }

@@ -1,65 +1,116 @@
 /* ============================= */
+/* DESTINATION GRID */
+/* ============================= */
+
+.destination-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+/* ============================= */
 /* DESTINATION CARD */
 /* ============================= */
 
 .destination-card {
-background: var(--background-white);
-border-radius: 10px;
-overflow: hidden;
-border: 1px solid var(--border-color);
-transition: 0.3s;
-display: flex;
-flex-direction: column;
+  background: var(--background-white);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .destination-card:hover {
-transform: translateY(-5px);
-box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(44, 123, 229, 0.15);
+  border-color: var(--primary-color);
 }
 
 /* ============================= */
-/* DESTINATION IMAGE */
+/* CARD IMAGE */
 /* ============================= */
 
-.destination-image {
-width: 100%;
-height: 180px;
-object-fit: cover;
+.card-image {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.destination-card:hover .card-image img {
+  transform: scale(1.05);
+}
+
+.card-category {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(44, 123, 229, 0.9);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.card-status {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 /* ============================= */
 /* CARD CONTENT */
 /* ============================= */
 
-.destination-content {
-padding: 15px;
-display: flex;
-flex-direction: column;
-gap: 8px;
+.card-content {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.destination-content h3 {
-font-size: 18px;
+.card-content h3 {
+  font-size: 18px;
+  margin: 0;
+  color: var(--text-dark);
 }
 
-.destination-location {
-font-size: 14px;
-color: var(--text-light);
+.card-location {
+  font-size: 13px;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
 }
 
-.destination-category {
-font-size: 13px;
-color: var(--secondary-color);
+.card-description {
+  font-size: 13px;
+  color: var(--text-light);
+  line-height: 1.5;
+  flex: 1;
 }
 
-/* ============================= */
-/* CARD DESCRIPTION */
-/* ============================= */
-
-.destination-description {
-font-size: 14px;
-color: var(--text-light);
-margin-top: 5px;
+.card-price {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin: 10px 0;
 }
 
 /* ============================= */
@@ -67,21 +118,29 @@ margin-top: 5px;
 /* ============================= */
 
 .card-actions {
-margin-top: auto;
-display: flex;
-justify-content: space-between;
-gap: 8px;
-padding-top: 10px;
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+  flex-wrap: wrap;
 }
 
-.card-actions button {
-flex: 1;
-font-size: 13px;
-padding: 8px;
-border-radius: 6px;
-cursor: pointer;
-border: none;
-transition: 0.3s;
+.card-actions button,
+.card-actions a {
+  flex: 1;
+  min-width: 120px;
+  font-size: 13px;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ============================= */
@@ -89,15 +148,122 @@ transition: 0.3s;
 /* ============================= */
 
 .btn-view {
-background: var(--primary-color);
-color: white;
+  background: var(--primary-color);
+  color: white;
 }
 
 .btn-view:hover {
-background: #1a68d1;
+  background: #1a68d1;
+  transform: translateY(-2px);
 }
 
 /* ============================= */
+/* SECONDARY BUTTON */
+/* ============================= */
+
+.btn-secondary {
+  background: #e9ecef;
+  color: var(--primary-color);
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* ============================= */
+/* BOOKMARK BUTTON */
+/* ============================= */
+
+.btn-bookmark {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffc107;
+}
+
+.btn-bookmark:hover {
+  background: #ffc107;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* ============================= */
+/* REMOVE BUTTON */
+/* ============================= */
+
+.remove-bookmark,
+.cancel-booking {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #fc8181;
+}
+
+.remove-bookmark:hover,
+.cancel-booking:hover {
+  background: #dc3545;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* ============================= */
+/* BOOKING CARD */
+/* ============================= */
+
+.booking-card {
+  background: var(--background-white);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.booking-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+}
+
+.booking-info {
+  font-size: 13px;
+  margin: 5px 0;
+  color: var(--text-light);
+}
+
+.booking-info strong {
+  color: var(--text-dark);
+}
+
+/* ============================= */
+/* EMPTY STATE */
+/* ============================= */
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-light);
+}
+
+.no-results p {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+/* ============================= */
+/* LOADING MESSAGE */
+/* ============================= */
+
+.loading-message {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-light);
+  font-size: 14px;
+}
 /* BOOKMARK BUTTON */
 /* ============================= */
 

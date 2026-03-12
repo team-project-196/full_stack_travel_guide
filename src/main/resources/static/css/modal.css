@@ -1,17 +1,48 @@
 /* ============================= */
-/* MODAL BACKGROUND */
+/* MODAL BACKGROUND OVERLAY */
 /* ============================= */
 
 .modal {
-display: none;
-position: fixed;
-z-index: 2000;
-left: 0;
-top: 0;
-width: 100%;
-height: 100%;
-overflow: auto;
-background: rgba(0, 0, 0, 0.6);
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background: rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.3s ease;
+}
+
+.modal.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================= */
+/* MODAL ANIMATION */
+/* ============================= */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ============================= */
@@ -19,76 +50,280 @@ background: rgba(0, 0, 0, 0.6);
 /* ============================= */
 
 .modal-content {
-background: var(--background-white);
-margin: 8% auto;
-padding: 25px;
-border-radius: 10px;
-width: 90%;
-max-width: 600px;
-position: relative;
-animation: modalFade 0.3s ease;
+  background: var(--background-white);
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+  animation: slideUp 0.3s ease;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 }
 
 /* ============================= */
-/* MODAL ANIMATION */
+/* MODAL HEADER */
 /* ============================= */
 
-@keyframes modalFade {
-from {
-opacity: 0;
-transform: translateY(-20px);
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 15px;
 }
-to {
-opacity: 1;
-transform: translateY(0);
-}
+
+.modal-header h2 {
+  margin: 0;
+  color: var(--text-dark);
+  font-size: 22px;
 }
 
 /* ============================= */
 /* CLOSE BUTTON */
 /* ============================= */
 
-.close-btn {
-position: absolute;
-right: 15px;
-top: 12px;
-font-size: 24px;
-cursor: pointer;
-color: var(--text-light);
+.close-btn,
+.modal-close {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  font-size: 28px;
+  cursor: pointer;
+  color: var(--text-light);
+  background: none;
+  border: none;
+  padding: 5px;
+  transition: all 0.3s ease;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.close-btn:hover {
-color: var(--text-dark);
+.close-btn:hover,
+.modal-close:hover {
+  color: var(--primary-color);
+  transform: rotate(90deg);
 }
 
 /* ============================= */
 /* MODAL BODY CONTENT */
 /* ============================= */
 
+.modal-body {
+  margin-bottom: 25px;
+}
+
+.modal-body img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  max-height: 300px;
+  object-fit: cover;
+}
+
+.modal-body h3 {
+  margin: 15px 0 10px 0;
+  font-size: 20px;
+  color: var(--text-dark);
+}
+
+.modal-body h4 {
+  margin: 15px 0 8px 0;
+  font-size: 16px;
+  color: var(--text-dark);
+}
+
+.modal-body p {
+  margin: 8px 0;
+  color: var(--text-light);
+  line-height: 1.6;
+  font-size: 14px;
+}
+
 #modalBody img {
-width: 100%;
-border-radius: 8px;
-margin-bottom: 15px;
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  max-height: 300px;
+  object-fit: cover;
 }
 
 #modalBody h3 {
-margin-bottom: 8px;
+  margin-bottom: 8px;
+  color: var(--text-dark);
 }
 
 #modalBody p {
-margin-bottom: 10px;
+  margin-bottom: 10px;
+  color: var(--text-light);
 }
 
 /* ============================= */
 /* MODAL ACTION BUTTONS */
 /* ============================= */
 
-.modal-actions {
-margin-top: 15px;
-display: flex;
-gap: 10px;
+.modal-actions,
+.modal-footer {
+  margin-top: 25px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--border-color);
+  padding-top: 20px;
 }
 
-.modal-actions button {
-flex: 1;
+.modal-actions button,
+.modal-footer button,
+.modal-actions .btn,
+.modal-footer .btn {
+  flex: 1;
+  min-width: 120px;
+  font-size: 14px;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+
+/* ============================= */
+/* PRIMARY BUTTON */
+/* ============================= */
+
+.modal-actions .btn-primary,
+.modal-footer .btn-primary,
+.modal-actions .btn-confirm,
+.modal-footer .btn-confirm {
+  background: var(--primary-color);
+  color: white;
+}
+
+.modal-actions .btn-primary:hover,
+.modal-footer .btn-primary:hover,
+.modal-actions .btn-confirm:hover,
+.modal-footer .btn-confirm:hover {
+  background: #1a68d1;
+  transform: translateY(-2px);
+}
+
+/* ============================= */
+/* SECONDARY BUTTON */
+/* ============================= */
+
+.modal-actions .btn-secondary,
+.modal-footer .btn-secondary,
+.modal-actions .btn-cancel,
+.modal-footer .btn-cancel {
+  background: #e9ecef;
+  color: var(--text-dark);
+  border: 1px solid var(--border-color);
+}
+
+.modal-actions .btn-secondary:hover,
+.modal-footer .btn-secondary:hover,
+.modal-actions .btn-cancel:hover,
+.modal-footer .btn-cancel:hover {
+  background: #dee2e6;
+  transform: translateY(-2px);
+}
+
+/* ============================= */
+/* DANGER BUTTON */
+/* ============================= */
+
+.modal-actions .btn-danger,
+.modal-footer .btn-danger {
+  background: #dc3545;
+  color: white;
+}
+
+.modal-actions .btn-danger:hover,
+.modal-footer .btn-danger:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+}
+
+/* ============================= */
+/* FORM FIELDS IN MODAL */
+/* ============================= */
+
+.modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modal .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modal .form-group label {
+  font-weight: 600;
+  color: var(--text-dark);
+  font-size: 14px;
+}
+
+.modal .form-group input,
+.modal .form-group select,
+.modal .form-group textarea {
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.modal .form-group input:focus,
+.modal .form-group select:focus,
+.modal .form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(44, 123, 229, 0.1);
+}
+
+/* ============================= */
+/* RESPONSIVE MODAL */
+/* ============================= */
+
+@media (max-width: 600px) {
+  .modal-content {
+    width: 95%;
+    padding: 20px;
+    margin: auto;
+  }
+
+  .modal-header {
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+  }
+
+  .close-btn,
+  .modal-close {
+    right: 15px;
+    top: 10px;
+    font-size: 24px;
+  }
+
+  .modal-actions,
+  .modal-footer {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .modal-actions button,
+  .modal-footer button {
+    width: 100%;
+  }
+
+  .modal-body img {
+    max-height: 200px;
+  }
 }

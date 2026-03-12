@@ -28,11 +28,13 @@ public class BookingController {
             @Valid @RequestBody BookingRequest request,
             Authentication authentication) {
 
+        // allow travelMode to be null
         return bookingService.createBooking(
                 authentication.getName(),
                 destinationId,
                 request.getTotalAmount(),
-                request.getTravelMode()
+                request.getTravelMode(), // may be null
+                request.getStartCity() // may be null
         );
     }
 

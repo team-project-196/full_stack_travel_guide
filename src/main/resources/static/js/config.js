@@ -5,14 +5,12 @@ const CONFIG = {
 
   ENDPOINTS: {
     LOGIN: "/auth/login",
-    REGISTER: "/auth/register",
+    REGISTER: "/auth/signup",
 
     DESTINATIONS: "/destinations",
     BOOKMARKS: "/bookmarks",
     BOOKINGS: "/bookings",
-    TRIPS: "/trips",
-
-    ADMIN: "/admin",
+    ADMIN: "/admin"
   },
 };
 

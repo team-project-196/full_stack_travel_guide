@@ -44,7 +44,14 @@ async function request(endpoint, method = "GET", data = null) {
       throw new Error(`API Error ${response.status}: ${errorText}`);
     }
 
-    return await response.json();
+    // Check if response has content
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      const text = await response.text();
+      return text ? JSON.parse(text) : {};
+    } else {
+      return {};
+    }
   } catch (error) {
     console.error("API Request Failed:", error);
     throw error;

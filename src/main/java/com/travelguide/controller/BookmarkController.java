@@ -2,6 +2,7 @@ package com.travelguide.controller;
 
 import com.travelguide.model.Bookmark;
 import com.travelguide.service.BookmarkService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,12 +38,14 @@ public class BookmarkController {
     }
 
     @DeleteMapping("/{destinationId}")
-    public void removeBookmark(@PathVariable Long destinationId,
+    public ResponseEntity<String> removeBookmark(@PathVariable Long destinationId,
                                Authentication authentication) {
 
         bookmarkService.removeBookmark(
                 authentication.getName(),
                 destinationId
         );
+        
+        return ResponseEntity.ok("Bookmark removed successfully");
     }
 }

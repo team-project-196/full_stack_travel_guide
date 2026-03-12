@@ -1,38 +1,20 @@
 // js/bookmarks.js
 
 import CONFIG from "./config.js";
-import { get, post, del } from "./api.js";
+import { get, del } from "./api.js";
 import { showAlert } from "./ui.js";
-
 import { requireAuth } from "./auth.js";
+import { formatCurrency } from "./utils.js";
 
 let bookmarks = [];
 
 /**
- * Add bookmark
- */
-export async function addBookmark(destinationId) {
-  try {
-    await post(CONFIG.ENDPOINTS.BOOKMARKS, {
-      destinationId: destinationId,
-    });
-
-    showAlert("Destination bookmarked!");
-  } catch (error) {
-    console.error(error);
-    showAlert("Failed to bookmark destination", "error");
-  }
-}
-
-/**
  * Remove bookmark
  */
-export async function removeBookmark(bookmarkId) {
+export async function removeBookmark(destinationId) {
   try {
-    await del(`${CONFIG.ENDPOINTS.BOOKMARKS}/${bookmarkId}`);
-
-    showAlert("Bookmark removed");
-
+    await del(`${CONFIG.ENDPOINTS.BOOKMARKS}/${destinationId}`);
+    showAlert("✅ Bookmark removed");
     loadBookmarks();
   } catch (error) {
     console.error(error);
@@ -45,18 +27,27 @@ export async function removeBookmark(bookmarkId) {
  */
 async function loadBookmarks() {
   const container = document.getElementById("bookmarksContainer");
+  const loading = document.getElementById("loadingBookmarks");
+  const noBookmarks = document.getElementById("noBookmarks");
 
   if (!container) return;
 
   try {
+    loading.style.display = "block";
     const data = await get(CONFIG.ENDPOINTS.BOOKMARKS);
-
-    bookmarks = data;
-
+    // dedupe by destination id
+    const seen = new Set();
+    bookmarks = data.filter((b) => {
+      const id = b.destination?.id;
+      if (seen.has(id)) return false;
+      seen.add(id);
+      return true;
+    });
     renderBookmarks();
+    loading.style.display = "none";
   } catch (error) {
     console.error(error);
-    container.innerHTML = "<p>Failed to load bookmarks.</p>";
+    loading.innerText = "Failed to load bookmarks.";
   }
 }
 
@@ -65,35 +56,41 @@ async function loadBookmarks() {
  */
 function renderBookmarks() {
   const container = document.getElementById("bookmarksContainer");
+  const noBookmarks = document.getElementById("noBookmarks");
 
   if (!container) return;
 
   container.innerHTML = "";
 
   if (!bookmarks.length) {
-    container.innerHTML = "<p>No bookmarks yet.</p>";
+    noBookmarks.style.display = "block";
     return;
   }
 
+  noBookmarks.style.display = "none";
+
   bookmarks.forEach((bookmark) => {
     const card = document.createElement("div");
-    card.className = "bookmark-card";
+    card.className = "destination-card";
 
     card.innerHTML = `
-            <img src="${bookmark.destination.imageUrl}" alt="${bookmark.destination.name}" />
+      <div class="card-image">
+        <img src="${bookmark.destination.imageUrl}" alt="${bookmark.destination.name}" />
+        <span class="card-category">${bookmark.destination.category}</span>
+      </div>
 
-            <div class="card-content">
+      <div class="card-content">
+        <h3>${bookmark.destination.name}</h3>
+        <p class="card-location">📍 ${bookmark.destination.country}</p>
+        <p class="card-description">${(bookmark.destination.description || "").substring(0, 80)}...</p>
+        <p class="card-price">💰 ${formatCurrency(bookmark.destination.basePrice)}</p>
 
-                <h3>${bookmark.destination.name}</h3>
-
-                <p>${(bookmark.destination.description || "").substring(0, 80)}...</p>
-
-                <button class="remove-bookmark" data-id="${bookmark.id}">
-                    Remove
-                </button>
-
-            </div>
-        `;
+        <div class="card-actions">
+          <a href="destinations.html" class="btn-secondary">View Full Details</a>
+          <button class="remove-bookmark" data-id="${bookmark.destination.id}">Remove ❌</button>
+        </div>
+      </div>
+    `;
 
     container.appendChild(card);
   });
@@ -103,10 +100,12 @@ function renderBookmarks() {
  * Handle remove button
  */
 function handleBookmarkActions(event) {
-  const id = event.target.dataset.id;
+  const destinationId = event.target.dataset.id;
 
   if (event.target.classList.contains("remove-bookmark")) {
-    removeBookmark(id);
+    if (confirm("Are you sure you want to remove this bookmark?")) {
+      removeBookmark(destinationId);
+    }
   }
 }
 
@@ -122,4 +121,9 @@ document.addEventListener("DOMContentLoaded", () => {
     loadBookmarks();
     container.addEventListener("click", handleBookmarkActions);
   }
+
+  // refresh when an external bookmark change occurs
+  window.addEventListener('bookmarkChanged', () => {
+    loadBookmarks();
+  });
 });

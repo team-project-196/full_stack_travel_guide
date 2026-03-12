@@ -1,9 +1,14 @@
-import { get } from "./api.js";
+import CONFIG from "./config.js";
+import { get, post } from "./api.js";
+import { formatCurrency, parseCurrency } from "./utils.js";
+import { showAlert } from "./ui.js";
+import { isAuthenticated } from "./auth.js";
 
 let destinations = [];
 let map;
 let marker;
 let routeLine;
+let selectedTravelMode = "BUS"; // default travel mode
 
 /* Major Indian cities */
 const cities = {
@@ -32,16 +37,21 @@ function initMap() {
 async function loadDestinations() {
   const select = document.getElementById("destinationSelect");
 
-  const data = await get("/destinations");
+  try {
+    const data = await get(CONFIG.ENDPOINTS.DESTINATIONS);
 
-  destinations = data;
+    destinations = data;
 
-  data.forEach((dest) => {
-    const option = document.createElement("option");
-    option.value = dest.id;
-    option.textContent = dest.name;
-    select.appendChild(option);
-  });
+    data.forEach((dest) => {
+      const option = document.createElement("option");
+      option.value = dest.id;
+      option.textContent = dest.name;
+      select.appendChild(option);
+    });
+  } catch (error) {
+    console.error("Error loading destinations:", error);
+    showAlert("Failed to load destinations", "error");
+  }
 }
 
 /* Haversine distance formula */
@@ -99,6 +109,7 @@ function calculateTransport(distance, destination) {
 
   let transportText = "";
   let totalTransportCost = 0;
+  let selectedMode = "BUS"; // default
 
   if (distance < 300) {
     const bus = distance * BUS_RATE;
@@ -106,38 +117,57 @@ function calculateTransport(distance, destination) {
     const flight = distance * FLIGHT_RATE;
 
     transportText =
-      "Bus ₹" + bus + " | Train ₹" + train + " | Flight ₹" + flight;
+      "🚌 Bus " + formatCurrency(bus) + " | 🚂 Train " + formatCurrency(train) + " | ✈️ Flight " + formatCurrency(flight);
 
     totalTransportCost = Math.min(bus, train, flight);
+    
+    // Determine which mode was selected based on minimum cost
+    if (totalTransportCost === bus) selectedMode = "BUS";
+    else if (totalTransportCost === train) selectedMode = "TRAIN";
+    else selectedMode = "FLIGHT";
+    
   } else if (distance < 1200) {
     const bus = distance * BUS_RATE;
     const train = distance * TRAIN_RATE;
     const flight = distance * FLIGHT_RATE;
 
     transportText =
-      "Bus ₹" + bus + " | Train ₹" + train + " | Flight ₹" + flight;
+      "🚌 Bus " + formatCurrency(bus) + " | 🚂 Train " + formatCurrency(train) + " | ✈️ Flight " + formatCurrency(flight);
 
     totalTransportCost = Math.min(train, flight);
+    
+    // Only train or flight for medium distances
+    if (totalTransportCost === train) selectedMode = "TRAIN";
+    else selectedMode = "FLIGHT";
+    
   } else {
     const flight = distance * FLIGHT_RATE;
-
     const airportCost = AIRPORT_TRANSFER;
 
-    transportText = "Bus to Airport ₹" + airportCost + " + Flight ₹" + flight;
+    transportText = "🚌 Bus to Airport " + formatCurrency(airportCost) + " + ✈️ Flight " + formatCurrency(flight);
 
     totalTransportCost = airportCost + flight;
+    selectedMode = "FLIGHT";
 
     /* Ship option if coastal */
     if (destination.category === "Beach") {
       const ship = distance * SHIP_RATE;
+      const shipTotal = PORT_TRANSFER + ship;
 
-      transportText += " | Bus to Port ₹" + PORT_TRANSFER + " + Ship ₹" + ship;
+      transportText += " | 🚢 Bus to Port " + formatCurrency(PORT_TRANSFER) + " + Ship " + formatCurrency(ship);
+      
+      // If ship is cheaper, use ship
+      if (shipTotal < totalTransportCost) {
+        totalTransportCost = shipTotal;
+        selectedMode = "SHIP";
+      }
     }
   }
 
   return {
     text: transportText,
     cost: Math.round(totalTransportCost),
+    mode: selectedMode
   };
 }
 
@@ -173,8 +203,8 @@ function calculateTrip(e) {
 
   document.getElementById("distanceValue").textContent = distance + " km";
   document.getElementById("transportCost").textContent = transport.text;
-  document.getElementById("activityCost").textContent = "₹" + activityCost;
-  document.getElementById("totalCost").textContent = "₹" + total;
+  document.getElementById("activityCost").textContent = formatCurrency(activityCost);
+  document.getElementById("totalCost").textContent = formatCurrency(total);
 
   /* Remove previous marker */
   if (marker) map.removeLayer(marker);
@@ -218,13 +248,100 @@ function setupActivityLoader() {
     });
 }
 
+/* read hash to preselect destination on load */
+function preselectDestinationFromHash() {
+  const hash = window.location.hash.slice(1);
+  if (!hash) return;
+  const select = document.getElementById("destinationSelect");
+  if (!select) return;
+  select.value = hash;
+  select.dispatchEvent(new Event('change'));
+}
+
+/* Book trip handler */
+async function handleBookTrip() {
+  if (!isAuthenticated()) {
+    showAlert("❌ Login required to book a trip. Redirecting...", "error");
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, 500);
+    return;
+  }
+
+  const destId = document.getElementById("destinationSelect").value;
+  let totalAmountText = document.getElementById("totalCost").textContent.trim();
+  
+  // Parse currency string like "₹2,450" to number
+  let totalAmount = parseCurrency(totalAmountText);
+
+  // if amount missing, try computing automatically
+  if (!destId) {
+    showAlert("Please select a destination", "error");
+    return;
+  }
+
+  if (!totalAmount || isNaN(totalAmount) || totalAmount === 0) {
+    // trigger calculation programmatically
+    calculateTrip(new Event('submit'));
+    totalAmountText = document.getElementById("totalCost").textContent.trim();
+    totalAmount = parseCurrency(totalAmountText);
+  }
+
+  if (!totalAmount || isNaN(totalAmount) || totalAmount === 0) {
+    showAlert("Please calculate trip cost first", "error");
+    return;
+  }
+
+  try {
+    await post(`${CONFIG.ENDPOINTS.BOOKINGS}/${destId}`, {
+      totalAmount,
+      startCity: document.getElementById("startLocation").value,
+      travelMode: selectedTravelMode
+    });
+
+    showAlert("🎉 Trip booked! Check your bookings page.");
+    // notify any open bookings page to reload
+    window.dispatchEvent(new CustomEvent('bookingChanged', { detail: { destinationId: destId }}));
+    setTimeout(() => {
+      window.location.href = "bookings.html";
+    }, 1500);
+  } catch (error) {
+    showAlert("Booking failed. " + (error.message || "Try again."), "error");
+    console.error(error);
+  }
+}
+
+/* Setup booking button */
+function setupBookingButton() {
+  const bookBtn = document.getElementById("bookTripBtn");
+  const bookingActions = document.getElementById("bookingActions");
+
+  if (bookBtn) {
+    bookBtn.addEventListener("click", handleBookTrip);
+  }
+
+  // Show booking actions after first calculation
+  const originalCalculateTrip = calculateTrip;
+  calculateTrip = function(e) {
+    originalCalculateTrip.call(this, e);
+    if (bookingActions) {
+      bookingActions.style.display = "block";
+    }
+  };
+}
+
 /* Init */
 document.addEventListener("DOMContentLoaded", () => {
   initMap();
 
-  loadDestinations();
+  loadDestinations().then(() => {
+    // attempt to preselect after destinations are loaded
+    preselectDestinationFromHash();
+  });
 
   setupActivityLoader();
+
+  setupBookingButton();
 
   document.getElementById("tripForm").addEventListener("submit", calculateTrip);
 });

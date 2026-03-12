@@ -1,29 +1,41 @@
 // js/destinations.js
 
 import CONFIG from "./config.js";
-import { get } from "./api.js";
+import { get, post, put, del } from "./api.js";
 import { showAlert, openModal, closeModal } from "./ui.js";
 import { debounce } from "./utils.js";
-import { isAuthenticated } from "./auth.js";
+import { isAuthenticated, requireAuth } from "./auth.js";
+import { formatCurrency } from "./utils.js";
 
 let destinations = [];
+let currentDestination = null;
 let map;
 let marker;
+let userBookmarks = []; // Track user's bookmarks
 
 /* Load destinations */
 async function loadDestinations() {
   const loading = document.getElementById("loadingMessage");
+  const container = document.getElementById("destinationsContainer");
 
   try {
+    // fetch bookmarks for logged in user so UI reflects state
+    if (isAuthenticated()) {
+      const bmData = await get(CONFIG.ENDPOINTS.BOOKMARKS);
+      // convert to string and dedupe
+      userBookmarks = [...new Set(bmData.map((b) => String(b.destination.id)))];
+    } else {
+      userBookmarks = [];
+    }
+
     const data = await get(CONFIG.ENDPOINTS.DESTINATIONS);
-
     destinations = data;
-
     renderDestinations(destinations);
-
+    attachCardListeners();
     loading.style.display = "none";
   } catch (error) {
     loading.innerText = "Failed to load destinations.";
+    console.error(error);
   }
 }
 
@@ -46,26 +58,19 @@ function renderDestinations(list) {
     card.className = "destination-card";
 
     card.innerHTML = `
-      <img src="${dest.imageUrl}" alt="${dest.name}">
+      <div class="card-image">
+        <img src="${dest.imageUrl}" alt="${dest.name}">
+        <span class="card-category">${dest.category}</span>
+      </div>
 
       <div class="card-content">
-
         <h3>${dest.name}</h3>
-
-        <p>${(dest.description || "").substring(0, 100)}...</p>
-
+        <p class="card-location">🌍 ${dest.country}</p>
+        <p class="card-description">${(dest.description || "").substring(0, 100)}...</p>
         <div class="card-actions">
-
-          <button class="btn-view" data-id="${dest.id}">
-            View Details
-          </button>
-
-          <button class="btn-bookmark" data-id="${dest.id}">
-            Bookmark
-          </button>
-
+          <button class="btn-view" data-id="${dest.id}">View Details</button>
+          ${isAuthenticated() ? `<button class="btn-bookmark" data-id="${dest.id}">${userBookmarks.includes(dest.id) ? '⭐ Bookmarked' : '⭐ Bookmark'}</button>` : ''}
         </div>
-
       </div>
     `;
 
@@ -78,7 +83,8 @@ function searchDestinations() {
   const query = document.getElementById("searchInput").value.toLowerCase();
 
   const filtered = destinations.filter((d) =>
-    d.name.toLowerCase().includes(query),
+    d.name.toLowerCase().includes(query) ||
+    d.country.toLowerCase().includes(query)
   );
 
   renderDestinations(filtered);
@@ -98,7 +104,7 @@ function filterCategory() {
   renderDestinations(filtered);
 }
 
-/* Show modal */
+/* Show destination details */
 function showDestinationDetails(id) {
   const destination = destinations.find((d) => d.id == id);
 
@@ -107,62 +113,157 @@ function showDestinationDetails(id) {
     return;
   }
 
+  currentDestination = destination;
   const modalBody = document.getElementById("modalBody");
 
   let activitiesHTML = "";
 
   if (destination.activities && destination.activities.length) {
     activitiesHTML = `
-      <h4>Activities</h4>
-      <ul>
+      <h4>Available Activities</h4>
+      <div class="activities-list">
         ${destination.activities
-          .map((a) => `<li>${a.name} - ₹${a.price}</li>`)
+          .map((a) => `<div class="activity-item">✈️ ${a.name} - ${formatCurrency(a.price)}</div>`)
           .join("")}
-      </ul>
+      </div>
     `;
   }
-
   modalBody.innerHTML = `
+    <button class="close-btn modal-back-btn" id="backBtn">← Back</button>
+    
+    <div class="modal-destination-header">
       <h2>${destination.name}</h2>
+      <p class="location-badge">📍 ${destination.country}</p>
+    </div>
 
-      <img src="${destination.imageUrl}" alt="${destination.name}">
+    <img src="${destination.imageUrl}" alt="${destination.name}" class="modal-image">
 
-      <p>${destination.description}</p>
-
+    <div class="modal-info">
       <p><strong>Category:</strong> ${destination.category}</p>
-      <p><strong>Best Time:</strong> ${destination.bestTime}</p>
-      <p><strong>Base Price:</strong> ₹${destination.basePrice}</p>
+      <p><strong>Best Time to Visit:</strong> ${destination.bestTime}</p>
+      <p><strong>Description:</strong></p>
+      <p class="description-text">${destination.description}</p>
 
       ${activitiesHTML}
+    </div>
 
-      <div id="destinationMap" style="height:300px;margin-top:15px;"></div>
+    ${isAuthenticated() ? `<button class="btn-secondary bookmark-btn" data-id="${destination.id}">${userBookmarks.includes(destination.id) ? '⭐ Bookmarked' : '⭐ Bookmark'}</button>` : ''}
 
-      <div class="modal-actions">
+    <a class="btn-primary" href="trip-planner.html#${destination.id}" style="margin-top:15px; display:inline-block;">📍 Calculate Trip Cost</a>
 
-        <button class="btn-bookmark" data-id="${destination.id}">
-          Bookmark
-        </button>
-
-        <button class="btn-book">
-          Book Trip
-        </button>
-
-      </div>
+    <div id="destinationMap" class="modal-map" style="height:300px;margin-top:15px;"></div>
   `;
 
   openModal("destinationModal");
 
+  // Setup event listeners in modal
+  const backBtn = document.getElementById("backBtn");
+  if (backBtn) {
+    backBtn.addEventListener("click", () => closeModal("destinationModal"));
+  }
+
+  const bookmarkBtn = document.querySelector(".bookmark-btn");
+  if (bookmarkBtn) {
+    bookmarkBtn.addEventListener("click", handleBookmark);
+  }
+
+  // no booking form in modal anymore
   initMap(destination);
 }
 
-/* Bookmark */
-function handleBookmark(destinationId) {
+/* helper: attach listeners on card buttons */
+function attachCardListeners() {
+  const viewBtns = document.querySelectorAll(".btn-view");
+  viewBtns.forEach((btn) => {
+    btn.addEventListener("click", (e) => showDestinationDetails(e.target.dataset.id));
+  });
+
+  const bookmarkBtns = document.querySelectorAll(".btn-bookmark");
+  bookmarkBtns.forEach((btn) => {
+    btn.addEventListener("click", handleBookmark);
+  });
+}
+
+
+/* Add bookmark */
+async function handleBookmark(e) {
+  e.preventDefault();
+
   if (!isAuthenticated()) {
     window.location.href = "login.html";
     return;
   }
 
-  showAlert("Bookmark saved!");
+  const destinationId = e.target.dataset.id;
+  const button = e.target;
+
+  try {
+    const isAdded = userBookmarks.includes(destinationId);
+    if (isAdded) {
+      // Remove bookmark
+      await del(`${CONFIG.ENDPOINTS.BOOKMARKS}/${destinationId}`);
+      userBookmarks = userBookmarks.filter(id => id !== destinationId);
+      button.textContent = '⭐ Bookmark';
+      showAlert("✅ Bookmark removed!");
+    } else {
+      // Add bookmark
+      await post(`${CONFIG.ENDPOINTS.BOOKMARKS}/${destinationId}`, {});
+      userBookmarks.push(destinationId);
+      // keep unique
+      userBookmarks = [...new Set(userBookmarks)];
+      button.textContent = '⭐ Bookmarked';
+      showAlert("✅ Destination added to bookmarks!");
+    }
+
+    // also update any card button matching this id
+    const cardBtn = document.querySelector(`.btn-bookmark[data-id="${destinationId}"]`);
+    if (cardBtn && cardBtn !== button) {
+      cardBtn.textContent = userBookmarks.includes(destinationId) ? '⭐ Bookmarked' : '⭐ Bookmark';
+    }
+
+    // notify other components (bookmarks page) about change
+    window.dispatchEvent(new CustomEvent('bookmarkChanged', {
+      detail: { destinationId, added: !isAdded }
+    }));
+  } catch (error) {
+    showAlert("Failed to update bookmark", "error");
+    console.error(error);
+  }
+}
+
+/* Complete booking */
+async function handleBooking(e) {
+  e.preventDefault();
+
+  if (!isAuthenticated()) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  if (!currentDestination) return;
+
+  const totalAmount = parseFloat(document.getElementById("totalAmount").value);
+
+  if (!totalAmount || totalAmount < currentDestination.basePrice) {
+    showAlert("Please enter a valid amount", "error");
+    return;
+  }
+
+  try {
+    await post(`${CONFIG.ENDPOINTS.BOOKINGS}/${currentDestination.id}`, {
+      totalAmount
+    });
+
+    showAlert("🎉 Booking confirmed! Check your bookings page.");
+    closeModal("destinationModal");
+    
+    setTimeout(() => {
+      window.location.href = "bookings.html";
+    }, 2000);
+  } catch (error) {
+    showAlert("Booking failed. " + (error.message || "Try again."), "error");
+    console.error(error);
+  }
 }
 
 /* Card button handling */
@@ -174,11 +275,12 @@ function handleCardActions(event) {
   }
 
   if (event.target.classList.contains("btn-bookmark")) {
-    handleBookmark(id);
+    event.target.dataset.id = id;
+    handleBookmark(event);
   }
 }
 
-/* Leaflet map */
+/* Leaflet map initialization */
 function initMap(destination) {
   const lat = destination.latitude;
   const lng = destination.longitude;
@@ -186,17 +288,24 @@ function initMap(destination) {
   if (!lat || !lng) return;
 
   setTimeout(() => {
-    map = L.map("destinationMap").setView([lat, lng], 6);
+    if (typeof L !== 'undefined') {
+      // Clear existing map if any
+      if (map) {
+        map.remove();
+      }
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: "© OpenStreetMap",
-    }).addTo(map);
+      map = L.map("destinationMap").setView([lat, lng], 10);
 
-    marker = L.marker([lat, lng]).addTo(map);
-  }, 200);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "© OpenStreetMap contributors",
+      }).addTo(map);
+
+      L.marker([lat, lng]).addTo(map).bindPopup(`<b>${destination.name}</b>`);
+    }
+  }, 100);
 }
 
-/* Modal close */
+/* Setup modal close */
 function setupModalClose() {
   const modal = document.getElementById("destinationModal");
   const closeBtn = document.getElementById("closeModal");
@@ -217,19 +326,22 @@ function setupControls() {
   const searchInput = document.getElementById("searchInput");
   const categoryFilter = document.getElementById("categoryFilter");
 
-  searchInput.addEventListener("input", debounce(searchDestinations, 300));
-  categoryFilter.addEventListener("change", filterCategory);
+  if (searchInput) {
+    searchInput.addEventListener("input", debounce(searchDestinations, 300));
+  }
+  if (categoryFilter) {
+    categoryFilter.addEventListener("change", filterCategory);
+  }
 }
 
-/* Init */
+/* Initialize */
 document.addEventListener("DOMContentLoaded", () => {
   loadDestinations();
-
   setupControls();
-
   setupModalClose();
 
-  document
-    .getElementById("destinationsContainer")
-    .addEventListener("click", handleCardActions);
+  const container = document.getElementById("destinationsContainer");
+  if (container) {
+    container.addEventListener("click", handleCardActions);
+  }
 });

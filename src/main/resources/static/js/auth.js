@@ -8,11 +8,16 @@ import { saveToStorage, getFromStorage, removeFromStorage } from "./utils.js";
 /**
  * Handle Login
  */
-async function handleLogin(event) {
+export async function handleLogin(event) {
   event.preventDefault();
 
-  const email = document.getElementById("email").value;
+  const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
+
+  if (!email || !password) {
+    showAlert("Please fill in all fields", "error");
+    return;
+  }
 
   try {
     const response = await post(CONFIG.ENDPOINTS.LOGIN, {
@@ -20,9 +25,20 @@ async function handleLogin(event) {
       password,
     });
 
-    // Save token
+    // backend returns a successful 200 even for bad credentials, so
+    // check for the token explicitly before proceeding.
+    if (!response || !response.token) {
+      // display message from server if available, otherwise generic text
+      showAlert(response?.message || "Invalid credentials", "error");
+      return;
+    }
+
+    // Save token, email & role
     saveToStorage("token", response.token);
-    saveToStorage("user", response.user);
+    saveToStorage("email", email);
+    if (response.role) {
+      saveToStorage("role", response.role);
+    }
 
     showAlert("Login successful!");
 
@@ -38,15 +54,31 @@ async function handleLogin(event) {
 /**
  * Handle Registration
  */
-async function handleRegister(event) {
+export async function handleRegister(event) {
   event.preventDefault();
 
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+
+  if (!name || !email || !password || !confirmPassword) {
+    showAlert("Please fill in all fields", "error");
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    showAlert("Passwords do not match", "error");
+    return;
+  }
+
+  if (password.length < 8) {
+    showAlert("Password must be at least 8 characters", "error");
+    return;
+  }
 
   try {
-    await post(CONFIG.ENDPOINTS.REGISTER, {
+    const response = await post(CONFIG.ENDPOINTS.REGISTER, {
       name,
       email,
       password,
@@ -58,7 +90,7 @@ async function handleRegister(event) {
       window.location.href = "login.html";
     }, 1500);
   } catch (error) {
-    showAlert("Registration failed. Try again.", "error");
+    showAlert("Registration failed. " + (error.message || "Try again."), "error");
   }
 }
 
@@ -67,12 +99,13 @@ async function handleRegister(event) {
  */
 export function logout() {
   removeFromStorage("token");
-  removeFromStorage("user");
+  removeFromStorage("email");
+  removeFromStorage("role");
 
   showAlert("Logged out successfully");
 
   setTimeout(() => {
-    window.location.href = "login.html";
+    window.location.href = "index.html";
   }, 1000);
 }
 
@@ -81,12 +114,18 @@ export function logout() {
  */
 export function isAuthenticated() {
   const token = getFromStorage("token");
-
   return !!token;
 }
 
 /**
- * Protect page
+ * Get current user email
+ */
+export function getCurrentUserEmail() {
+  return getFromStorage("email");
+}
+
+/**
+ * Protect page - redirect to login if not authenticated
  */
 export function requireAuth() {
   if (!isAuthenticated()) {
@@ -95,10 +134,9 @@ export function requireAuth() {
 }
 
 /**
- * Attach event listeners if forms exist
+ * Attach event listeners
  */
 document.addEventListener("DOMContentLoaded", () => {
-
   const params = new URLSearchParams(window.location.search);
 
   if (params.get("msg") === "login-required") {

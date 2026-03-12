@@ -44,10 +44,15 @@
             <li><a href="trip-planner.html">Trip Planner</a></li>
             <li><a href="#" id="navBookmarks">Bookmarks</a></li>
             <li><a href="#" id="navBookings">Bookings</a></li>
+            <li><a href="#" id="navAdmin">Admin</a></li>
 
             <li id="authLinks" class="auth-links">
               <a href="login.html" class="btn-login">Login</a>
               <a href="register.html" class="btn-register">Register</a>
+            </li>
+
+            <li id="logoutContainer" style="display: none">
+              <button id="logoutBtn" class="btn-login">Logout</button>
             </li>
           </ul>
         </nav>
@@ -156,5 +161,9 @@
     <!-- Page JS -->
 
     <script type="module" src="js/destinations.js"></script>
+    <script type="module">
+      import { setupNavigation } from "./js/nav.js";
+      document.addEventListener("DOMContentLoaded", setupNavigation);
+    </script>
   </body>
 </html>

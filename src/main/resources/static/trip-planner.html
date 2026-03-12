@@ -40,10 +40,15 @@
             <li><a href="trip-planner.html" class="active">Trip Planner</a></li>
             <li><a href="#" id="navBookmarks">Bookmarks</a></li>
             <li><a href="#" id="navBookings">Bookings</a></li>
+            <li><a href="#" id="navAdmin">Admin</a></li>
 
             <li id="authLinks" class="auth-links">
               <a href="login.html" class="btn-login">Login</a>
               <a href="register.html" class="btn-register">Register</a>
+            </li>
+
+            <li id="logoutContainer" style="display: none">
+              <button id="logoutBtn" class="btn-login">Logout</button>
             </li>
           </ul>
         </nav>
@@ -103,13 +108,13 @@
             <div class="form-group">
               <label>Available Activities</label>
 
-              <div id="activitiesContainer">
-                <p>Select a destination to view activities.</p>
+              <div id="activitiesContainer" class="activities-list">
+                <p style="color: #999; font-size: 13px;">Select a destination to view activities.</p>
               </div>
             </div>
 
-            <button type="submit" class="btn-primary full-width">
-              Calculate Trip Cost
+            <button type="submit" class="btn-primary btn-submit">
+              📍 Calculate Trip Cost
             </button>
           </form>
         </div>
@@ -139,6 +144,11 @@
               Total Trip Cost:
               <span id="totalCost">-</span>
             </p>
+          </div>
+
+          <div id="bookingActions" style="display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd;">
+            <button id="bookTripBtn" class="btn-primary" style="width: 100%; padding: 12px; margin-bottom: 10px;">🎫 Book This Trip</button>
+            <p style="font-size: 12px; color: #666; text-align: center;">Login required to complete booking</p>
           </div>
 
           <div id="map" class="trip-map" style="height: 350px"></div>
@@ -186,6 +196,10 @@
 
     <!-- JS -->
 
+    <script type="module">
+      import { setupNavigation } from "./js/nav.js";
+      document.addEventListener("DOMContentLoaded", setupNavigation);
+    </script>
     <script type="module" src="js/tripPlanner.js"></script>
   </body>
 </html>

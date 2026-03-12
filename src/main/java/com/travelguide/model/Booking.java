@@ -28,5 +28,7 @@ public class Booking {
 
     private String travelMode;
 
+    private String startCity;
+
     private String status; // CONFIRMED / CANCELLED
 }

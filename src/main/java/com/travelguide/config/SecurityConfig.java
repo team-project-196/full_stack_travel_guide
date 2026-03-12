@@ -36,7 +36,8 @@ public class SecurityConfig {
                                 "/destinations.html",
                                 "/trip-planner.html",
                                 "/bookmarks.html",
-                                "/bookings.html"
+                                "/bookings.html",
+                                "/admin.html"
                         ).permitAll()
 
                         // 🔓 Allow static resources

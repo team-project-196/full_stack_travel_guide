@@ -1,5 +1,6 @@
 package com.travelguide.service;
 
+import com.travelguide.exception.ResourceNotFoundException;
 import com.travelguide.model.Destination;
 import com.travelguide.repository.DestinationRepository;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class DestinationService {
     // Get by ID
     public Destination getById(Long id) {
         return destinationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Destination not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Destination not found with ID: " + id));
     }
 
     // Save new destination (Admin use)
@@ -34,7 +35,7 @@ public class DestinationService {
     public Destination updateDestination(Long id, Destination updatedDestination) {
 
         Destination existing = destinationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Destination not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Destination not found with ID: " + id));
 
         existing.setName(updatedDestination.getName());
         existing.setCountry(updatedDestination.getCountry());
@@ -52,7 +53,7 @@ public class DestinationService {
     public void deleteDestination(Long id) {
 
         Destination destination = destinationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Destination not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Destination not found with ID: " + id));
 
         destinationRepository.delete(destination);
     }

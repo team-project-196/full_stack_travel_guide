@@ -46,6 +46,18 @@ export function formatCurrency(amount) {
 }
 
 /**
+ * Parse currency string to number
+ */
+export function parseCurrency(currencyString) {
+  if (!currencyString || typeof currencyString !== 'string') return 0;
+  
+  // Remove currency symbol and commas, then parse
+  const cleaned = currencyString.replace(/[₹,\s]/g, '');
+  const parsed = parseFloat(cleaned);
+  return isNaN(parsed) ? 0 : parsed;
+}
+
+/**
  * Get query parameter from URL
  */
 export function getQueryParam(param) {

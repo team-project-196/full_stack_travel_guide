@@ -34,10 +34,15 @@
             <li><a href="trip-planner.html">Trip Planner</a></li>
             <li><a href="bookmarks.html" class="active">Bookmarks</a></li>
             <li><a href="bookings.html">Bookings</a></li>
+            <li><a href="#" id="navAdmin">Admin</a></li>
 
             <li id="authLinks" class="auth-links">
               <a href="login.html" class="btn-login">Login</a>
               <a href="register.html" class="btn-register">Register</a>
+            </li>
+
+            <li id="logoutContainer" style="display: none">
+              <button id="logoutBtn" class="btn-login">Logout</button>
             </li>
           </ul>
         </nav>
@@ -111,5 +116,9 @@
     <!-- JAVASCRIPT -->
 
     <script type="module" src="js/bookmarks.js"></script>
+    <script type="module">
+      import { setupNavigation } from "./js/nav.js";
+      document.addEventListener("DOMContentLoaded", setupNavigation);
+    </script>
   </body>
 </html>

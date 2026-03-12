@@ -51,4 +51,11 @@ public class UserService {
 
         return user;
     }
+
+    // ==============================
+    // GET ALL USERS (Admin)
+    // ==============================
+    public java.util.List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 }

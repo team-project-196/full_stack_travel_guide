@@ -1,5 +1,6 @@
 package com.travelguide.service;
 
+import com.travelguide.exception.ResourceNotFoundException;
 import com.travelguide.model.*;
 import com.travelguide.repository.*;
 import org.springframework.stereotype.Service;
@@ -22,17 +23,18 @@ public class BookmarkService {
         this.destinationRepository = destinationRepository;
     }
 
+    @Transactional
     public void addBookmark(String email, Long destinationId) {
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (bookmarkRepository.existsByUser_IdAndDestination_Id(user.getId(), destinationId)) {
             return; // already bookmarked
         }
 
         Destination destination = destinationRepository.findById(destinationId)
-                .orElseThrow(() -> new RuntimeException("Destination not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Destination not found"));
 
         Bookmark bookmark = new Bookmark();
         bookmark.setUser(user);
@@ -44,7 +46,7 @@ public class BookmarkService {
     public List<Bookmark> getUserBookmarks(String email) {
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         return bookmarkRepository.findByUser(user);
     }
@@ -53,7 +55,7 @@ public class BookmarkService {
     public void removeBookmark(String email, Long destinationId) {
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         bookmarkRepository.deleteByUser_IdAndDestination_Id(
                 user.getId(), destinationId);

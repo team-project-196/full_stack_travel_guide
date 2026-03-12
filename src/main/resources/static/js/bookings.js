@@ -1,28 +1,28 @@
 // js/bookings.js
 
 import CONFIG from "./config.js";
-import { get, post, del } from "./api.js";
+import { get, del } from "./api.js";
 import { showAlert } from "./ui.js";
-import { formatDate } from "./utils.js";
-
+import { formatDate, formatCurrency } from "./utils.js";
 import { requireAuth } from "./auth.js";
 
 let bookings = [];
 
 /**
- * Create booking
+ * Cancel booking
  */
-export async function createBooking(destinationId, travelDate) {
-  try {
-    await post(CONFIG.ENDPOINTS.BOOKINGS, {
-      destinationId: destinationId,
-      travelDate: travelDate,
-    });
+async function cancelBooking(bookingId) {
+  if (!confirm("Are you sure you want to cancel this booking?")) {
+    return;
+  }
 
-    showAlert("Booking successful!");
+  try {
+    await del(`${CONFIG.ENDPOINTS.BOOKINGS}/${bookingId}`);
+    showAlert("✅ Booking cancelled successfully");
+    loadBookings();
   } catch (error) {
     console.error(error);
-    showAlert("Failed to create booking", "error");
+    showAlert("Failed to cancel booking: " + (error.message || "Try again"), "error");
   }
 }
 
@@ -31,18 +31,20 @@ export async function createBooking(destinationId, travelDate) {
  */
 async function loadBookings() {
   const container = document.getElementById("bookingsContainer");
+  const loading = document.getElementById("loadingBookings");
+  const noBookings = document.getElementById("noBookings");
 
   if (!container) return;
 
   try {
-    const data = await get(CONFIG.ENDPOINTS.BOOKINGS);
-
+    loading.style.display = "block";
+    const data = await get(`${CONFIG.ENDPOINTS.BOOKINGS}/my`);
     bookings = data;
-
     renderBookings();
+    loading.style.display = "none";
   } catch (error) {
     console.error(error);
-    container.innerHTML = "<p>Failed to load bookings.</p>";
+    loading.innerText = "Failed to load bookings.";
   }
 }
 
@@ -51,64 +53,59 @@ async function loadBookings() {
  */
 function renderBookings() {
   const container = document.getElementById("bookingsContainer");
+  const noBookings = document.getElementById("noBookings");
 
   if (!container) return;
 
   container.innerHTML = "";
 
   if (!bookings.length) {
-    container.innerHTML = "<p>No bookings yet.</p>";
+    noBookings.style.display = "block";
     return;
   }
+
+  noBookings.style.display = "none";
 
   bookings.forEach((booking) => {
     const card = document.createElement("div");
     card.className = "booking-card";
 
+    const statusClass = booking.status === "CONFIRMED" ? "status-confirmed" : "status-cancelled";
+    const statusIcon = booking.status === "CONFIRMED" ? "✅" : "❌";
+
     card.innerHTML = `
-            <img src="${booking.destination?.imageUrl}" alt="${booking.destination.name}" />
+      <div class="card-image">
+        <img src="${booking.destination?.imageUrl}" alt="${booking.destination?.name}" />
+        <span class="card-status ${statusClass}">${statusIcon} ${booking.status}</span>
+      </div>
 
-            <div class="card-content">
+      <div class="card-content">
+        <h3>${booking.destination?.name || "Destination"}</h3>
+        <p class="booking-info">� From: ${booking.startCity || "N/A"}</p>
+        <p class="booking-info">�📍 ${booking.destination?.country}</p>
+        <p class="booking-info">🏷️ <strong>Mode:</strong> ${booking.travelMode?.toUpperCase()}</p>
+        <p class="booking-info">💰 <strong>Amount:</strong> ${formatCurrency(booking.totalAmount)}</p>
+        <p class="booking-info">📅 <strong>Booked on:</strong> ${formatDate(booking.bookingDate)}</p>
 
-                <h3>${booking.destination.name}</h3>
-
-                <p><strong>Travel Date:</strong> ${formatDate(booking.travelDate)}</p>
-
-                <button class="cancel-booking" data-id="${booking.id}">
-                    Cancel Booking
-                </button>
-
-            </div>
-        `;
+        <div class="card-actions">
+          <a href="destinations.html#${booking.destination?.id}" class="btn-secondary">View Destination</a>
+          ${booking.status === "CONFIRMED" ? `<button class="cancel-booking" data-id="${booking.id}">Cancel Booking</button>` : ''}
+        </div>
+      </div>
+    `;
 
     container.appendChild(card);
   });
 }
 
 /**
- * Cancel booking
- */
-async function cancelBooking(id) {
-  try {
-    await del(`${CONFIG.ENDPOINTS.BOOKINGS}/${id}`);
-
-    showAlert("Booking cancelled");
-
-    loadBookings();
-  } catch (error) {
-    console.error(error);
-    showAlert("Failed to cancel booking", "error");
-  }
-}
-
-/**
- * Handle cancel button
+ * Handle booking actions
  */
 function handleBookingActions(event) {
-  const id = event.target.dataset.id;
+  const bookingId = event.target.dataset.id;
 
   if (event.target.classList.contains("cancel-booking")) {
-    cancelBooking(id);
+    cancelBooking(bookingId);
   }
 }
 
@@ -124,4 +121,9 @@ document.addEventListener("DOMContentLoaded", () => {
     loadBookings();
     container.addEventListener("click", handleBookingActions);
   }
+
+  // Listen for booking changes from other pages
+  window.addEventListener('bookingChanged', () => {
+    loadBookings();
+  });
 });

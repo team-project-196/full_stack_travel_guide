@@ -1,85 +1,384 @@
-/* =========================
-   TABLETS (max-width: 1024px)
-========================= */
+/* ============================= */
+/* TABLETS (max-width: 1024px) */
+/* ============================= */
 
 @media (max-width: 1024px) {
+  .container {
+    width: 90%;
+  }
 
-    .container {
-        width: 90%;
-    }
+  .destination-grid,
+  .admin-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
 
-    .destinations-grid,
-    .bookmarks-grid,
-    .bookings-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
+  .planner-container {
+    flex-direction: column;
+  }
 
-    .trip-planner-container {
-        flex-direction: column;
-    }
+  .planner-form,
+  .planner-results {
+    width: 100%;
+  }
 
-    .trip-form,
-    .trip-results {
-        width: 100%;
-    }
+  .nav-links {
+    gap: 15px;
+  }
 
-    .admin-dashboard {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    header nav {
-        gap: 15px;
-    }
+  .admin-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-
-/* =========================
-   MOBILE DEVICES (max-width: 768px)
-========================= */
+/* ============================= */
+/* MOBILE DEVICES (max-width: 768px) */
+/* ============================= */
 
 @media (max-width: 768px) {
+  /* HEADER */
+  .header {
+    flex-wrap: wrap;
+    padding: 15px 10px;
+  }
 
-    header {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 15px;
-    }
+  .nav-container {
+    flex-direction: column;
+    width: 100%;
+  }
 
-    header nav {
-        flex-direction: column;
-        width: 100%;
-        margin-top: 10px;
-    }
+  .logo {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+  }
 
-    header nav a {
-        padding: 10px 0;
-        width: 100%;
-    }
+  .logo h1 {
+    font-size: 20px;
+  }
 
-    .hero {
-        padding: 60px 20px;
-        text-align: center;
-    }
+  .nav {
+    width: 100%;
+  }
 
-    .hero h1 {
-        font-size: 28px;
-    }
+  .nav-links {
+    flex-direction: column;
+    gap: 10px;
+  }
 
-    .destinations-grid,
-    .bookmarks-grid,
-    .bookings-grid {
-        grid-template-columns: 1fr;
-    }
+  .nav-links li {
+    width: 100%;
+  }
 
-    .card img {
-        height: 180px;
-    }
+  .nav-links a,
+  .nav-links button {
+    width: 100%;
+    text-align: center;
+    padding: 10px 15px;
+  }
 
-    .form-container {
-        width: 90%;
-        padding: 20px;
-    }
+  /* HERO SECTION */
+  .hero {
+    padding: 40px 20px;
+  }
+
+  .hero h2 {
+    font-size: 24px;
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+
+  /* GRIDS */
+  .destination-grid,
+  .admin-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  /* DESTINATION CARD */
+  .destination-card {
+    flex-direction: column;
+  }
+
+  .destination-card img,
+  .card-image img {
+    height: 200px;
+  }
+
+  /* FORMS */
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  .auth-container {
+    width: 95%;
+    margin: 20px auto;
+  }
+
+  .auth-card {
+    padding: 20px;
+  }
+
+  /* BUTTONS */
+  .btn-primary,
+  .btn-secondary,
+  .btn-login,
+  .btn-register {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  /* MODALS */
+  .modal-content {
+    width: 95%;
+    padding: 20px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-image {
+    max-height: 250px;
+  }
+
+  /* ADMIN STATS */
+  .admin-stats {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .stat-card {
+    padding: 15px;
+  }
+
+  .stat-card h4 {
+    font-size: 14px;
+  }
+
+  .stat-card p {
+    font-size: 24px;
+  }
+
+  /* TABS */
+  .admin-tabs {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .tab-btn {
+    flex: 1;
+    min-width: 150px;
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  /* TRIP PLANNER */
+  .planner-container {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .planner-form h3,
+  .planner-results h3 {
+    font-size: 18px;
+  }
+
+  .trip-map {
+    height: 300px;
+  }
+
+  .activities-list {
+    max-height: 150px;
+  }
+
+  .btn-submit {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  /* CONTROLS */
+  .destination-controls {
+    padding: 20px 10px;
+  }
+
+  .controls-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-box,
+  .filter-dropdown,
+  .btn-search {
+    width: 100%;
+    padding: 12px;
+  }
+
+  .search-wrapper {
+    flex-direction: column;
+  }
+
+  /* FOOTER */
+  .footer-container {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .footer-links,
+  .footer-contact {
+    text-align: center;
+  }
+
+  .footer-links ul,
+  .footer-contact p {
+    margin: 10px 0;
+  }
+
+  /* TRIP PLANNER */
+  .planner-container {
+    flex-direction: column;
+    padding: 20px 10px;
+  }
+
+  .planner-form,
+  .planner-results {
+    width: 100%;
+  }
+
+  #map,
+  #destinationMap,
+  .trip-map {
+    height: 250px !important;
+  }
+
+  /* PAGE HEADER */
+  .page-header {
+    padding: 30px 15px;
+  }
+
+  .page-header h2 {
+    font-size: 24px;
+  }
+
+  .page-header p {
+    font-size: 14px;
+  }
+}
+
+/* ============================= */
+/* SMALL MOBILE (max-width: 480px) */
+/* ============================= */
+
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+
+  .container {
+    width: 95%;
+  }
+
+  .logo h1 {
+    font-size: 18px;
+  }
+
+  .hero h2 {
+    font-size: 20px;
+  }
+
+  .destination-card .card-content h3 {
+    font-size: 18px;
+  }
+
+  .destination-card .card-content p {
+    font-size: 12px;
+  }
+
+  .card-actions {
+    flex-direction: column;
+  }
+
+  .card-actions button,
+  .card-actions a {
+    width: 100%;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-login,
+  .btn-register,
+  button {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  h3 {
+    font-size: 16px;
+  }
+
+  .modal-content {
+    width: 98%;
+    padding: 15px;
+  }
+
+  .admin-tabs {
+    gap: 5px;
+  }
+
+  .tab-btn {
+    min-width: 100px;
+    font-size: 11px;
+    padding: 8px;
+  }
+
+  .admin-card {
+    padding: 15px;
+  }
+
+  .admin-card-image {
+    height: 150px;
+  }
+
+  /* TRIP PLANNER */
+  .trip-summary {
+    flex-direction: column;
+  }
+
+  .trip-summary p {
+    width: 100%;
+  }
+
+  /* BOOKING/MODAL */
+  .booking-section {
+    padding: 15px 0;
+  }
+
+  .booking-section .form-group {
+    margin-bottom: 12px;
+    padding: 20px;
+  }
 
     .trip-planner-container {
         flex-direction: column;

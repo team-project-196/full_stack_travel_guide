@@ -1,218 +1,159 @@
 <!doctype html>
-
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Admin Dashboard | TravelGuide</title>
-
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/header.css" />
     <link rel="stylesheet" href="css/admin.css" />
-    <link rel="stylesheet" href="css/cards.css" />
-    <link rel="stylesheet" href="css/modal.css" />
     <link rel="stylesheet" href="css/responsive.css" />
-
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-
-  <body>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
     <!-- HEADER -->
-
     <header class="header">
-      <div class="container nav-container">
-        <div class="logo">
-          <h1>TravelGuide Admin</h1>
+        <div class="container nav-container">
+            <div class="logo">
+                <h1>🔐 TravelGuide Admin</h1>
+            </div>
+            <nav class="nav">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="destinations.html">Destinations</a></li>
+                    <li><a href="trip-planner.html">Trip Planner</a></li>
+                    <li><a href="#" id="navBookmarks">Bookmarks</a></li>
+                    <li><a href="#" id="navBookings">Bookings</a></li>
+                    <li><a href="admin.html" class="active" id="navAdmin">Admin</a></li>
+                    <li id="logoutContainer">
+                        <button id="logoutBtn" class="btn-login">Logout</button>
+                    </li>
+                </ul>
+            </nav>
         </div>
-
-        <nav class="nav">
-          <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="destinations.html">Destinations</a></li>
-            <li><a href="admin.html" class="active">Admin</a></li>
-
-            <li id="authLinks" class="auth-links">
-              <a href="login.html" class="btn-login">Logout</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
     </header>
 
-    <!-- PAGE HEADER -->
+    <!-- ADMIN CONTENT -->
+    <section class="admin-section">
+        <div class="container">
+            <h2>📊 Admin Dashboard</h2>
 
-    <section class="page-header">
-      <div class="container">
-        <h2>Admin Dashboard</h2>
+            <!-- STATS -->
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <h4>Total Destinations</h4>
+                    <p id="destCount">0</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Total Bookings</h4>
+                    <p id="bookingCount">0</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Total Users</h4>
+                    <p id="userCount">0</p>
+                </div>
+            </div>
 
-        <p>Manage destinations available in TravelGuide.</p>
-      </div>
+            <!-- TABS -->
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-tab="destinations">📍 Destinations</button>
+                <button class="tab-btn" data-tab="bookings">🎫 Bookings</button>
+                <button class="tab-btn" data-tab="users">👥 Users</button>
+            </div>
+
+            <!-- DESTINATIONS TAB -->
+            <div id="destinations-tab" class="tab-content active">
+                <div class="tab-header">
+                    <h3>Manage Destinations</h3>
+                    <button id="addDestinationBtn" class="btn-primary">+ Add New Destination</button>
+                </div>
+                <div id="destinationsList" class="admin-grid"></div>
+            </div>
+
+            <!-- BOOKINGS TAB -->
+            <div id="bookings-tab" class="tab-content">
+                <h3>📅 All Bookings</h3>
+                <div id="bookingsList" class="admin-grid"></div>
+            </div>
+
+            <!-- USERS TAB -->
+            <div id="users-tab" class="tab-content">
+                <h3>👥 All Users</h3>
+                <div id="usersList" class="admin-grid"></div>
+            </div>
+        </div>
     </section>
 
-    <!-- ADD DESTINATION FORM -->
+    <!-- ADD/EDIT DESTINATION MODAL -->
+    <div id="destinationModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeDestinationModal">×</span>
+            <h3 id="modalTitle">➕ Add New Destination</h3>
 
-    <section class="admin-form-section">
-      <div class="container">
-        <div class="admin-form-card">
-          <h3>Add New Destination</h3>
-
-          <form id="addDestinationForm">
-            <div class="form-group">
-              <label for="name">Destination Name</label>
-
-              <input
-                type="text"
-                id="name"
-                placeholder="Example: Paris"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="location">Location</label>
-
-              <input
-                type="text"
-                id="location"
-                placeholder="Example: France"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="category">Category</label>
-
-              <select id="category">
-                <option value="City">City</option>
-                <option value="Beach">Beach</option>
-                <option value="Mountain">Mountain</option>
-                <option value="Nature">Nature</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="description">Description</label>
-
-              <textarea
-                id="description"
-                placeholder="Short description of the destination"
-                required
-              ></textarea>
-            </div>
-
-            <div class="form-group">
-              <label for="imageUrl">Image URL</label>
-
-              <input
-                type="text"
-                id="imageUrl"
-                placeholder="Example: assets/images/paris.jpg"
-                required
-              />
-            </div>
-
-            <button type="submit" class="btn-primary full-width">
-              Add Destination
-            </button>
-
-            <div id="adminMessage" class="form-message"></div>
-          </form>
+            <form id="destinationForm">
+                <input type="hidden" id="destId" />
+                <div class="form-group">
+                    <label>Name *</label>
+                    <input type="text" id="destName" required />
+                </div>
+                <div class="form-group">
+                    <label>Country *</label>
+                    <input type="text" id="destCountry" required />
+                </div>
+                <div class="form-group">
+                    <label>Category *</label>
+                    <select id="destCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="Beach">🏖️ Beach</option>
+                        <option value="Mountain">⛰️ Mountain</option>
+                        <option value="City">🏙️ City</option>
+                        <option value="Temple">🏛️ Temple</option>
+                        <option value="Nature">🌲 Nature</option>
+                        <option value="Adventure">🪂 Adventure</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Description *</label>
+                    <textarea id="destDescription" required rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Best Time to Visit *</label>
+                    <input type="text" id="destBestTime" placeholder="e.g., September to February" required />
+                </div>
+                <div class="form-group">
+                    <label>Base Price (₹) *</label>
+                    <input type="number" id="destBasePrice" min="0" step="100" required />
+                </div>
+                <div class="form-group">
+                    <label>Image URL *</label>
+                    <input type="url" id="destImageUrl" required />
+                </div>
+                <div class="form-group">
+                    <label>Latitude *</label>
+                    <input type="number" id="destLatitude" step="0.0001" required />
+                </div>
+                <div class="form-group">
+                    <label>Longitude *</label>
+                    <input type="number" id="destLongitude" step="0.0001" required />
+                </div>
+                <button type="submit" class="btn-primary full-width">Save Destination</button>
+            </form>
         </div>
-      </div>
-    </section>
-
-    <!-- DESTINATION MANAGEMENT -->
-
-    <section class="admin-destinations">
-      <div class="container">
-        <h3>Manage Destinations</h3>
-
-        <div id="adminDestinationsContainer" class="destination-grid">
-          <!-- Destination cards will load here -->
-        </div>
-
-        <div id="loadingAdminDestinations" class="loading-message">
-          Loading destinations...
-        </div>
-      </div>
-    </section>
-
-    <!-- EDIT MODAL -->
-
-    <div id="editModal" class="modal">
-      <div class="modal-content">
-        <span class="close-btn" id="closeEditModal">×</span>
-
-        <h3>Edit Destination</h3>
-
-        <form id="editDestinationForm">
-          <input type="hidden" id="editId" />
-
-          <div class="form-group">
-            <label>Name</label>
-
-            <input type="text" id="editName" required />
-          </div>
-
-          <div class="form-group">
-            <label>Location</label>
-
-            <input type="text" id="editLocation" required />
-          </div>
-
-          <div class="form-group">
-            <label>Category</label>
-
-            <select id="editCategory">
-              <option value="City">City</option>
-              <option value="Beach">Beach</option>
-              <option value="Mountain">Mountain</option>
-              <option value="Nature">Nature</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>Description</label>
-
-            <textarea id="editDescription" required></textarea>
-          </div>
-
-          <div class="form-group">
-            <label>Image URL</label>
-
-            <input type="text" id="editImageUrl" required />
-          </div>
-
-          <button type="submit" class="btn-primary full-width">
-            Update Destination
-          </button>
-        </form>
-      </div>
     </div>
 
     <!-- FOOTER -->
-
     <footer class="footer">
-      <div class="container footer-container">
-        <div class="footer-logo">
-          <h2>TravelGuide</h2>
-
-          <p>Admin management panel for travel destinations.</p>
+        <div class="container footer-container">
+            <div class="footer-logo">
+                <h2>TravelGuide</h2>
+                <p>Explore the world with smart travel planning.</p>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 TravelGuide. All rights reserved.</p>
+            </div>
         </div>
-      </div>
-
-      <div class="footer-bottom">
-        <p>© 2026 TravelGuide. All rights reserved.</p>
-      </div>
     </footer>
 
-    <!-- JAVASCRIPT -->
-
     <script type="module" src="js/admin.js"></script>
-
-  </body>
+</body>
 </html>
