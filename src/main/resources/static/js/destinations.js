@@ -22,7 +22,7 @@ async function loadDestinations() {
     // fetch bookmarks for logged in user so UI reflects state
     if (isAuthenticated()) {
       const bmData = await get(CONFIG.ENDPOINTS.BOOKMARKS);
-      // convert to string and dedupe
+      // convert to string and dedupe - ensure all IDs are strings for consistent comparison
       userBookmarks = [...new Set(bmData.map((b) => String(b.destination.id)))];
     } else {
       userBookmarks = [];
@@ -69,7 +69,7 @@ function renderDestinations(list) {
         <p class="card-description">${(dest.description || "").substring(0, 100)}...</p>
         <div class="card-actions">
           <button class="btn-view" data-id="${dest.id}">View Details</button>
-          ${isAuthenticated() ? `<button class="btn-bookmark" data-id="${dest.id}">${userBookmarks.includes(dest.id) ? '⭐ Bookmarked' : '⭐ Bookmark'}</button>` : ''}
+          ${isAuthenticated() ? `<button class="btn-bookmark" data-id="${dest.id}">${userBookmarks.includes(String(dest.id)) ? '⭐ Bookmarked' : '⭐ Bookmark'}</button>` : ''}
         </div>
       </div>
     `;
@@ -147,7 +147,7 @@ function showDestinationDetails(id) {
       ${activitiesHTML}
     </div>
 
-    ${isAuthenticated() ? `<button class="btn-secondary bookmark-btn" data-id="${destination.id}">${userBookmarks.includes(destination.id) ? '⭐ Bookmarked' : '⭐ Bookmark'}</button>` : ''}
+    ${isAuthenticated() ? `<button class="btn-secondary bookmark-btn" data-id="${destination.id}">${userBookmarks.includes(String(destination.id)) ? '⭐ Bookmarked' : '⭐ Bookmark'}</button>` : ''}
 
     <a class="btn-primary" href="trip-planner.html#${destination.id}" style="margin-top:15px; display:inline-block;">📍 Calculate Trip Cost</a>
 
@@ -198,17 +198,18 @@ async function handleBookmark(e) {
   const button = e.target;
 
   try {
-    const isAdded = userBookmarks.includes(destinationId);
+    const destinationIdStr = String(destinationId);
+    const isAdded = userBookmarks.includes(destinationIdStr);
     if (isAdded) {
       // Remove bookmark
       await del(`${CONFIG.ENDPOINTS.BOOKMARKS}/${destinationId}`);
-      userBookmarks = userBookmarks.filter(id => id !== destinationId);
+      userBookmarks = userBookmarks.filter(id => id !== destinationIdStr);
       button.textContent = '⭐ Bookmark';
       showAlert("✅ Bookmark removed!");
     } else {
       // Add bookmark
       await post(`${CONFIG.ENDPOINTS.BOOKMARKS}/${destinationId}`, {});
-      userBookmarks.push(destinationId);
+      userBookmarks.push(destinationIdStr);
       // keep unique
       userBookmarks = [...new Set(userBookmarks)];
       button.textContent = '⭐ Bookmarked';
@@ -218,7 +219,13 @@ async function handleBookmark(e) {
     // also update any card button matching this id
     const cardBtn = document.querySelector(`.btn-bookmark[data-id="${destinationId}"]`);
     if (cardBtn && cardBtn !== button) {
-      cardBtn.textContent = userBookmarks.includes(destinationId) ? '⭐ Bookmarked' : '⭐ Bookmark';
+      cardBtn.textContent = userBookmarks.includes(destinationIdStr) ? '⭐ Bookmarked' : '⭐ Bookmark';
+    }
+
+    // also update modal button if it exists
+    const modalBtn = document.querySelector(`.bookmark-btn[data-id="${destinationId}"]`);
+    if (modalBtn && modalBtn !== button) {
+      modalBtn.textContent = userBookmarks.includes(destinationIdStr) ? '⭐ Bookmarked' : '⭐ Bookmark';
     }
 
     // notify other components (bookmarks page) about change

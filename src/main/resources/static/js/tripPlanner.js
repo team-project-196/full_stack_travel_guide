@@ -120,12 +120,12 @@ function calculateTransport(distance, destination) {
       "🚌 Bus " + formatCurrency(bus) + " | 🚂 Train " + formatCurrency(train) + " | ✈️ Flight " + formatCurrency(flight);
 
     totalTransportCost = Math.min(bus, train, flight);
-    
+
     // Determine which mode was selected based on minimum cost
     if (totalTransportCost === bus) selectedMode = "BUS";
     else if (totalTransportCost === train) selectedMode = "TRAIN";
     else selectedMode = "FLIGHT";
-    
+
   } else if (distance < 1200) {
     const bus = distance * BUS_RATE;
     const train = distance * TRAIN_RATE;
@@ -135,11 +135,11 @@ function calculateTransport(distance, destination) {
       "🚌 Bus " + formatCurrency(bus) + " | 🚂 Train " + formatCurrency(train) + " | ✈️ Flight " + formatCurrency(flight);
 
     totalTransportCost = Math.min(train, flight);
-    
+
     // Only train or flight for medium distances
     if (totalTransportCost === train) selectedMode = "TRAIN";
     else selectedMode = "FLIGHT";
-    
+
   } else {
     const flight = distance * FLIGHT_RATE;
     const airportCost = AIRPORT_TRANSFER;
@@ -147,7 +147,7 @@ function calculateTransport(distance, destination) {
     transportText = "🚌 Bus to Airport " + formatCurrency(airportCost) + " + ✈️ Flight " + formatCurrency(flight);
 
     totalTransportCost = airportCost + flight;
-    selectedMode = "FLIGHT";
+    selectedMode = "FLIGHT"; // Primary mode is FLIGHT even though bus transfer is included
 
     /* Ship option if coastal */
     if (destination.category === "Beach") {
@@ -155,11 +155,11 @@ function calculateTransport(distance, destination) {
       const shipTotal = PORT_TRANSFER + ship;
 
       transportText += " | 🚢 Bus to Port " + formatCurrency(PORT_TRANSFER) + " + Ship " + formatCurrency(ship);
-      
+
       // If ship is cheaper, use ship
       if (shipTotal < totalTransportCost) {
         totalTransportCost = shipTotal;
-        selectedMode = "SHIP";
+        selectedMode = "SHIP"; // Primary mode is SHIP
       }
     }
   }
@@ -192,6 +192,9 @@ function calculateTrip(e) {
   );
 
   const transport = calculateTransport(distance, destination);
+
+  // Update the selected travel mode based on the calculated transport
+  selectedTravelMode = transport.mode;
 
   let activityCost = 0;
 
