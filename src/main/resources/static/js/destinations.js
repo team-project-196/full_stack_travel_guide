@@ -120,20 +120,18 @@ function showDestinationDetails(id) {
 
   if (destination.activities && destination.activities.length) {
     activitiesHTML = `
-      <h4>Available Activities</h4>
+      <p style="margin-top: 18px; font-weight: 600; color: var(--text-dark);"><strong>Available Activities</strong></p>
       <div class="activities-list">
         ${destination.activities
-          .map((a) => `<div class="activity-item">✈️ ${a.name} - ${formatCurrency(a.price)}</div>`)
+          .map((a) => `<div class="activity-item">${a.name} - ${formatCurrency(a.price)}</div>`)
           .join("")}
       </div>
     `;
   }
   modalBody.innerHTML = `
-    <button class="close-btn modal-back-btn" id="backBtn">← Back</button>
-    
     <div class="modal-destination-header">
       <h2>${destination.name}</h2>
-      <p class="location-badge">📍 ${destination.country}</p>
+      <p class="location-badge">${destination.country}</p>
     </div>
 
     <img src="${destination.imageUrl}" alt="${destination.name}" class="modal-image">
@@ -141,7 +139,7 @@ function showDestinationDetails(id) {
     <div class="modal-info">
       <p><strong>Category:</strong> ${destination.category}</p>
       <p><strong>Best Time to Visit:</strong> ${destination.bestTime}</p>
-      <p><strong>Description:</strong></p>
+      <p style="margin-top: 12px; margin-bottom: 8px; font-weight: 600; color: var(--text-dark);"><strong>Description</strong></p>
       <p class="description-text">${destination.description}</p>
 
       ${activitiesHTML}
@@ -155,12 +153,6 @@ function showDestinationDetails(id) {
   `;
 
   openModal("destinationModal");
-
-  // Setup event listeners in modal
-  const backBtn = document.getElementById("backBtn");
-  if (backBtn) {
-    backBtn.addEventListener("click", () => closeModal("destinationModal"));
-  }
 
   const bookmarkBtn = document.querySelector(".bookmark-btn");
   if (bookmarkBtn) {

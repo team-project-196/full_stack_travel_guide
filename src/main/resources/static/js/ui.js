@@ -46,7 +46,8 @@ export function openModal(modalId) {
   const modal = document.getElementById(modalId);
 
   if (modal) {
-    modal.style.display = "block";
+    // Ensure modal uses flex layout so it centers in the viewport
+    modal.style.display = "flex";
   }
 }
 
@@ -97,49 +98,3 @@ export function hideElement(elementId) {
     element.style.display = "none";
   }
 }
-
-
-document.addEventListener("DOMContentLoaded", () => {
-
-  const token = getFromStorage("token");
-
-  const loginLink = document.getElementById("navLogin") || document.querySelector(".btn-login");
-  const registerLink = document.getElementById("navRegister") || document.querySelector(".btn-register");
-  const logoutBtn = document.getElementById("navLogout");
-
-  const logoutContainer = document.getElementById("logoutContainer");
-
-  const bookmarksLink = document.getElementById("navBookmarks");
-  const bookingsLink = document.getElementById("navBookings");
-
-  if (token) {
-    if (loginLink) loginLink.style.display = "none";
-    if (registerLink) registerLink.style.display = "none";
-
-    if (logoutContainer) logoutContainer.style.display = "inline-block";
-    if (logoutBtn) {
-      logoutBtn.addEventListener("click", logout);
-    }
-  } else {
-    if (logoutContainer) logoutContainer.style.display = "none";
-  }
-
-  /* protect nav links for bookmarks/bookings */
-  if (bookmarksLink) {
-    bookmarksLink.addEventListener("click", (e) => {
-      if (!token) {
-        e.preventDefault();
-        window.location.href = "login.html?msg=login-required";
-      }
-    });
-  }
-  if (bookingsLink) {
-    bookingsLink.addEventListener("click", (e) => {
-      if (!token) {
-        e.preventDefault();
-        window.location.href = "login.html?msg=login-required";
-      }
-    });
-  }
-
-});

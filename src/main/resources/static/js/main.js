@@ -29,7 +29,9 @@ async function loadPopularDestinations() {
       card.className = "destination-card";
 
       card.innerHTML = `
-        <img src="${dest.imageUrl}" alt="${dest.name}" />
+        <div class="card-image">
+          <img src="${dest.imageUrl}" alt="${dest.name}" />
+        </div>
 
         <div class="card-content">
           <h3>${dest.name}</h3>

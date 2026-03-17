@@ -29,34 +29,34 @@ export function setupNavigation() {
     
     // Hide bookmarks and bookings links
     if (navBookmarks) {
-      navBookmarks.parentElement.style.display = "none"; // Hide <li> parent
+      navBookmarks.parentElement.style.display = "none";
     }
     if (navBookings) {
-      navBookings.parentElement.style.display = "none"; // Hide <li> parent
+      navBookings.parentElement.style.display = "none";
     }
     if (navAdmin) {
-      navAdmin.parentElement.style.display = "none"; // Hide <li> parent
+      navAdmin.parentElement.style.display = "none";
     }
     // Trip Planner is publicly accessible - keep it visible
   } else {
     // User IS authenticated
     if (authLinks) authLinks.style.display = "none";
-    if (logoutContainer) logoutContainer.style.display = "block";
+    if (logoutContainer) logoutContainer.style.display = "list-item"; // ✅ FIX
 
     // Show bookmarks and bookings links
     if (navBookmarks) {
-      navBookmarks.parentElement.style.display = "block";
-      navBookmarks.href = "bookmarks.html"; // Make sure link works
+      navBookmarks.parentElement.style.display = "list-item"; // ✅ FIX
+      navBookmarks.href = "bookmarks.html";
     }
     if (navBookings) {
-      navBookings.parentElement.style.display = "block";
-      navBookings.href = "bookings.html"; // Make sure link works
+      navBookings.parentElement.style.display = "list-item"; // ✅ FIX
+      navBookings.href = "bookings.html";
     }
 
     // If user is admin, show admin link
     if (userRole === "ADMIN" && navAdmin) {
-      navAdmin.parentElement.style.display = "block";
-      navAdmin.href = "admin.html"; // Make sure link works
+      navAdmin.parentElement.style.display = "list-item"; // ✅ FIX
+      navAdmin.href = "admin.html";
     } else if (navAdmin) {
       navAdmin.parentElement.style.display = "none";
     }

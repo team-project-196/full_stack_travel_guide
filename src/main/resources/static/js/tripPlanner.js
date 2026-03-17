@@ -31,6 +31,10 @@ function initMap() {
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: "© OpenStreetMap contributors",
   }).addTo(map);
+
+  setTimeout(() => {
+    map.invalidateSize();
+  }, 300);
 }
 
 /* Load destinations */

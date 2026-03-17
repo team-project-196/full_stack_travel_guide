@@ -1,85 +1,108 @@
-/* ============================= */
+/* ========================================= */
 /* DESTINATION GRID */
-/* ============================= */
+/* ========================================= */
 
 .destination-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 25px;
-  margin-top: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-top: 30px;
+  align-items: stretch;
 }
 
-/* ============================= */
+/* ========================================= */
 /* DESTINATION CARD */
-/* ============================= */
+/* ========================================= */
 
 .destination-card {
-  background: var(--background-white);
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
   height: 100%;
 }
 
 .destination-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 30px rgba(44, 123, 229, 0.15);
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(29, 112, 184, 0.12);
   border-color: var(--primary-color);
 }
 
-/* ============================= */
+/* ========================================= */
 /* CARD IMAGE */
-/* ============================= */
+/* ========================================= */
 
 .card-image {
-  position: relative;
   width: 100%;
   height: 200px;
   overflow: hidden;
+  border-radius: 10px 10px 0 0;
+  position: relative;
 }
 
 .card-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  display: block;
+  transition: transform 0.35s ease;
 }
 
 .destination-card:hover .card-image img {
   transform: scale(1.05);
 }
 
+/* ========================================= */
+/* CATEGORY BADGE */
+/* ========================================= */
+
 .card-category {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(44, 123, 229, 0.9);
+  top: 8px;
+  right: 8px;
+  left: auto;   /* override layout.css */
+  background: rgba(29, 112, 184, 0.95);
   color: white;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  z-index: 10;
+  pointer-events: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.18);
+  display: inline-block;
+  white-space: nowrap;
 }
+
+/* ========================================= */
+/* STATUS BADGE */
+/* ========================================= */
 
 .card-status {
   position: absolute;
-  bottom: 10px;
-  left: 10px;
+  bottom: 12px;
+  left: 12px;
   padding: 6px 12px;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
 }
 
-/* ============================= */
+/* ========================================= */
 /* CARD CONTENT */
-/* ============================= */
+/* ========================================= */
 
 .card-content {
-  padding: 20px;
+  padding: 16px;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -92,12 +115,21 @@
   color: var(--text-dark);
 }
 
+/* ========================================= */
+/* LOCATION */
+/* ========================================= */
+
 .card-location {
   font-size: 13px;
   color: var(--text-light);
   display: flex;
   align-items: center;
+  gap: 5px;
 }
+
+/* ========================================= */
+/* DESCRIPTION */
+/* ========================================= */
 
 .card-description {
   font-size: 13px;
@@ -106,16 +138,20 @@
   flex: 1;
 }
 
+/* ========================================= */
+/* PRICE */
+/* ========================================= */
+
 .card-price {
   font-size: 14px;
   font-weight: 600;
   color: var(--primary-color);
-  margin: 10px 0;
+  margin-top: 8px;
 }
 
-/* ============================= */
+/* ========================================= */
 /* CARD ACTIONS */
-/* ============================= */
+/* ========================================= */
 
 .card-actions {
   display: flex;
@@ -126,15 +162,14 @@
 
 .card-actions button,
 .card-actions a {
-  flex: 1;
-  min-width: 120px;
+  flex: 1 1 auto;
   font-size: 13px;
-  padding: 10px;
+  padding: 10px 12px;
   border-radius: 6px;
   cursor: pointer;
   border: none;
-  transition: all 0.3s ease;
-  font-family: 'Poppins', sans-serif;
+  transition: all 0.25s ease;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
   text-align: center;
   text-decoration: none;
@@ -143,9 +178,9 @@
   justify-content: center;
 }
 
-/* ============================= */
+/* ========================================= */
 /* VIEW BUTTON */
-/* ============================= */
+/* ========================================= */
 
 .btn-view {
   background: var(--primary-color);
@@ -157,9 +192,9 @@
   transform: translateY(-2px);
 }
 
-/* ============================= */
+/* ========================================= */
 /* SECONDARY BUTTON */
-/* ============================= */
+/* ========================================= */
 
 .btn-secondary {
   background: #e9ecef;
@@ -173,9 +208,9 @@
   transform: translateY(-2px);
 }
 
-/* ============================= */
+/* ========================================= */
 /* BOOKMARK BUTTON */
-/* ============================= */
+/* ========================================= */
 
 .btn-bookmark {
   background: #fff3cd;
@@ -189,15 +224,15 @@
   transform: translateY(-2px);
 }
 
-/* ============================= */
-/* REMOVE BUTTON */
-/* ============================= */
+/* ========================================= */
+/* REMOVE BOOKMARK */
+/* ========================================= */
 
 .remove-bookmark,
 .cancel-booking {
   background: #f8d7da;
   color: #721c24;
-  border: 1px solid #fc8181;
+  border: 1px solid #dc3545;
 }
 
 .remove-bookmark:hover,
@@ -207,24 +242,38 @@
   transform: translateY(-2px);
 }
 
-/* ============================= */
+/* ========================================= */
+/* BOOK BUTTON */
+/* ========================================= */
+
+.btn-book {
+  background: var(--accent-color);
+  color: white;
+}
+
+.btn-book:hover {
+  background: #00a383;
+  transform: translateY(-2px);
+}
+
+/* ========================================= */
 /* BOOKING CARD */
-/* ============================= */
+/* ========================================= */
 
 .booking-card {
-  background: var(--background-white);
+  background: white;
   border-radius: 12px;
-  overflow: hidden;
   border: 1px solid var(--border-color);
+  overflow: hidden;
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: auto;
 }
 
 .booking-card:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  transform: translateY(-5px);
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
 }
 
 .booking-info {
@@ -237,9 +286,57 @@
   color: var(--text-dark);
 }
 
-/* ============================= */
+/* ========================================= */
+/* ADMIN ACTIONS */
+/* ========================================= */
+
+.admin-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.btn-edit {
+  flex: 1;
+  background: #ffc107;
+  color: #333;
+}
+
+.btn-edit:hover {
+  background: #e0a800;
+}
+
+.btn-delete {
+  flex: 1;
+  background: #dc3545;
+  color: white;
+}
+
+.btn-delete:hover {
+  background: #c82333;
+}
+
+/* ========================================= */
+/* BOOKING STATUS */
+/* ========================================= */
+
+.booking-status {
+  margin-top: 6px;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.status-confirmed {
+  color: #28a745;
+}
+
+.status-cancelled {
+  color: #dc3545;
+}
+
+/* ========================================= */
 /* EMPTY STATE */
-/* ============================= */
+/* ========================================= */
 
 .no-results {
   grid-column: 1 / -1;
@@ -253,91 +350,39 @@
   margin: 10px 0;
 }
 
-/* ============================= */
+/* ========================================= */
 /* LOADING MESSAGE */
-/* ============================= */
+/* ========================================= */
 
 .loading-message {
   grid-column: 1 / -1;
   text-align: center;
   padding: 40px 20px;
+  font-size: 15px;
+  font-weight: 500;
   color: var(--text-light);
-  font-size: 14px;
-}
-/* BOOKMARK BUTTON */
-/* ============================= */
-
-.btn-bookmark {
-background: #f1f3f5;
-color: var(--text-dark);
 }
 
-.btn-bookmark:hover {
-background: #e6e9ec;
+/* ========================================= */
+/* MOBILE IMPROVEMENTS */
+/* ========================================= */
+
+@media (max-width: 768px) {
+  .destination-grid {
+    gap: 18px;
+  }
+
+  .card-content h3 {
+    font-size: 16px;
+  }
+
+  .card-actions {
+    flex-direction: column;
+  }
 }
 
-/* ============================= */
-/* BOOK BUTTON */
-/* ============================= */
-
-.btn-book {
-background: var(--accent-color);
-color: white;
-}
-
-.btn-book:hover {
-background: #00a383;
-}
-
-/* ============================= */
-/* ADMIN ACTIONS */
-/* ============================= */
-
-.admin-actions {
-display: flex;
-gap: 8px;
-margin-top: 10px;
-}
-
-.btn-edit {
-flex: 1;
-background: #ffc107;
-color: #333;
-}
-
-.btn-edit:hover {
-background: #e0a800;
-}
-
-.btn-delete {
-flex: 1;
-background: #dc3545;
-color: white;
-}
-
-.btn-delete:hover {
-background: #c82333;
-}
-
-/* ============================= */
-/* BOOKING STATUS */
-/* ============================= */
-
-.booking-info {
-font-size: 13px;
-margin-top: 5px;
-color: var(--secondary-color);
-}
-
-.booking-status {
-margin-top: 5px;
-font-weight: 500;
-}
-
-.status-confirmed {
-color: #28a745;
-}
-
-.status-cancelled {
-color: #dc3545;
+@media (max-width: 480px) {
+  .destination-grid {
+    grid-template-columns: 1fr;
+  }
 }

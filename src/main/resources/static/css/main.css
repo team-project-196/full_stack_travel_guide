@@ -1,217 +1,434 @@
-/* ============================= */
-/* GLOBAL RESET */
-/* ============================= */
+/* =======================================================
+   TRAVELGUIDE - MAIN STYLES
+   Global styles, variables, typography, buttons, utilities
+   ======================================================= */
 
-* {
+
+/* =======================================================
+   CSS RESET
+   ======================================================= */
+
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  }
+}
 
 html {
-scroll-behavior: smooth;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
-font-family: 'Poppins', sans-serif;
-background-color: #f7f9fc;
-color: #333;
-line-height: 1.6;
+  font-family: "Poppins", sans-serif;
+  background: var(--background-light);
+  color: var(--text-dark);
+  line-height: 1.6;
+  min-height: 100vh;
 }
 
-/* ============================= */
-/* COLOR VARIABLES */
-/* ============================= */
+
+/* =======================================================
+   CSS VARIABLES
+   ======================================================= */
 
 :root {
 
---primary-color: #2c7be5;
---secondary-color: #6c757d;
---accent-color: #00b894;
+  /* Primary Colors */
+  --primary-color: #1d70b8;
+  --primary-dark: #1558a6;
+  --primary-light: #e8f1fb;
 
---background-light: #f7f9fc;
---background-white: #ffffff;
+  /* Secondary */
+  --secondary-color: #4a5568;
+  --accent-color: #0d47a1;
 
---text-dark: #2d3436;
---text-light: #636e72;
+  /* Backgrounds */
+  --background-light: #f4f7fb;
+  --background-white: #ffffff;
+  --background-dark: #1f2a37;
 
---border-color: #e0e0e0;
+  /* Text */
+  --text-dark: #1f2937;
+  --text-light: #6b7280;
+
+  /* Borders */
+  --border-color: #d1d5db;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 6px rgba(0,0,0,0.06);
+  --shadow-md: 0 6px 20px rgba(0,0,0,0.08);
+  --shadow-lg: 0 10px 35px rgba(0,0,0,0.1);
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
 
 }
 
-/* ============================= */
-/* TYPOGRAPHY */
-/* ============================= */
 
-h1, h2, h3, h4 {
-font-weight: 600;
-color: var(--text-dark);
+/* =======================================================
+   TYPOGRAPHY
+   ======================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  color: var(--text-dark);
+  line-height: 1.3;
 }
 
 h1 {
-font-size: 28px;
+  font-size: 32px;
 }
 
 h2 {
-font-size: 26px;
+  font-size: 28px;
 }
 
 h3 {
-font-size: 20px;
+  font-size: 20px;
+}
+
+h4 {
+  font-size: 18px;
 }
 
 p {
-color: var(--text-light);
+  color: var(--text-light);
+  font-size: 15px;
 }
 
-/* ============================= */
-/* LINKS */
-/* ============================= */
+strong {
+  font-weight: 600;
+}
+
+small {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+
+/* =======================================================
+   LINKS
+   ======================================================= */
 
 a {
-text-decoration: none;
-color: inherit;
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.25s ease;
 }
 
-a:hover {
-color: var(--primary-color);
+a:not(.btn-primary):not(.btn-secondary):not(.btn-login):not(.btn-register):hover {
+  color: var(--primary-color);
 }
 
-/* ============================= */
-/* BUTTONS */
-/* ============================= */
+
+/* =======================================================
+   IMAGES
+   ======================================================= */
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+
+/* =======================================================
+   BUTTON SYSTEM
+   ======================================================= */
 
 button,
 .btn-primary,
 .btn-secondary {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all 0.3s ease;
-  padding: 12px 24px;
+  transition: all 0.25s ease;
+  padding: 12px 22px;
   font-size: 14px;
   border: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  white-space: nowrap;
 }
+
+
+/* Primary Button */
 
 .btn-primary {
   background: var(--primary-color);
   color: white;
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-primary:hover {
-  background: #1a68d1;
+  background: var(--primary-dark);
   transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+
+/* Secondary Button */
+
 .btn-secondary {
-  background: var(--secondary-color);
-  color: white;
+  background: #eef2f7;
+  color: var(--text-dark);
+  border: 1px solid var(--border-color);
 }
 
 .btn-secondary:hover {
-  background: #5a6268;
-  transform: translateY(-2px);
+  background: #e2e8f0;
+  transform: translateY(-1px);
 }
+
+
+/* Button Full Width */
 
 .full-width {
   width: 100%;
-  display: flex;
+  max-width: 340px;
+  display: block;
+  margin: 0 auto;
 }
 
-/* ============================= */
-/* SECTION TITLES */
-/* ============================= */
+
+/* =======================================================
+   SECTION TITLES
+   ======================================================= */
 
 .section-title {
-text-align: center;
-margin-bottom: 30px;
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 28px;
 }
 
 .section-subtitle {
-text-align: center;
-margin-bottom: 40px;
-color: var(--text-light);
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 15px;
+  color: var(--text-light);
 }
 
-/* ============================= */
-/* PAGE HEADER */
-/* ============================= */
+
+/* =======================================================
+   PAGE HEADER
+   ======================================================= */
 
 .page-header {
-background: white;
-padding: 50px 0;
-text-align: center;
-border-bottom: 1px solid var(--border-color);
+  background: white;
+  padding: 60px 0;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .page-header h2 {
-margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
-/* ============================= */
-/* LOADING & MESSAGES */
-/* ============================= */
+.page-header p {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+
+/* =======================================================
+   UTILITY CLASSES
+   ======================================================= */
+
+.text-center {
+  text-align: center;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mt-30 {
+  margin-top: 30px;
+}
+
+.mt-40 {
+  margin-top: 40px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+
+/* =======================================================
+   LOADING & STATUS MESSAGES
+   ======================================================= */
 
 .loading-message {
-text-align: center;
-margin-top: 30px;
-color: var(--secondary-color);
+  text-align: center;
+  margin-top: 30px;
+  font-size: 15px;
+  color: var(--secondary-color);
 }
 
 .no-results {
-text-align: center;
-margin-top: 30px;
-color: var(--secondary-color);
+  text-align: center;
+  margin-top: 30px;
+  font-size: 15px;
+  color: var(--secondary-color);
 }
 
-/* ============================= */
-/* FOOTER */
-/* ============================= */
+.error-message {
+  text-align: center;
+  margin-top: 30px;
+  color: #dc3545;
+}
+
+
+/* =======================================================
+   CTA SECTION BASE
+   ======================================================= */
+
+.cta {
+  text-align: center;
+  background: var(--primary-color);
+  color: white;
+  padding: 60px 20px;
+}
+
+.cta h2 {
+  color: white;
+  margin-bottom: 15px;
+}
+
+.cta p {
+  color: #e4ecf5;
+  margin-bottom: 25px;
+}
+
+.cta .btn-primary{
+background:white;
+color:var(--primary-color);
+border:2px solid white;
+}
+
+.cta .btn-primary:hover{
+background:#f1f5f9;
+color:var(--primary-dark);
+}
+
+
+/* =======================================================
+   FOOTER
+   ======================================================= */
 
 .footer {
-background: #1f2a37;
-color: white;
-margin-top: 60px;
+  background: var(--background-dark);
+  color: white;
+  margin-top: 80px;
+  padding: 60px 20px 50px 20px;
 }
 
 .footer-container {
-display: flex;
-justify-content: space-between;
-flex-wrap: wrap;
-padding: 40px 0;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+
+/* Footer Logo */
+
+.footer-logo {
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
 }
 
 .footer-logo h2 {
-color: white;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.footer-logo p {
+  color: #d0d7df;
+  max-width: 300px;
+  margin: 0;
+}
+
+
+/* Footer Links */
+
+.footer-links h3 {
+  margin-bottom: 10px;
+  color: white;
 }
 
 .footer-links ul {
-list-style: none;
+  list-style: none;
 }
 
 .footer-links li {
-margin-bottom: 8px;
+  margin-bottom: 8px;
 }
 
 .footer-links a {
-color: #dfe6e9;
+  color: #dfe6e9;
+  font-size: 14px;
 }
 
 .footer-links a:hover {
-color: white;
+  color: white;
+}
+
+
+/* Footer Contact */
+
+.footer-contact h3 {
+  margin-bottom: 10px;
 }
 
 .footer-contact p {
-margin-bottom: 6px;
+  font-size: 14px;
+  color: #dfe6e9;
+  margin-bottom: 6px;
 }
 
+
+/* Footer Bottom */
+
 .footer-bottom {
-text-align: center;
-padding: 15px 0;
-background: #16202b;
-font-size: 14px;
+  text-align: center;
+  padding: 18px 0;
+  background: #16202b;
+  font-size: 14px;
+  color: #cfd8e3;
+}
+
+
+/* =======================================================
+   ANIMATIONS
+   ======================================================= */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease;
 }

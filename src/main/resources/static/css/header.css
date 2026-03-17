@@ -1,387 +1,217 @@
-/* ============================= */
-/* HEADER */
-/* ============================= */
+/* =====================================================
+   TRAVELGUIDE HEADER
+   Navigation bar, logo, nav links, auth buttons
+   ===================================================== */
+
+
+/* =====================================================
+   HEADER CONTAINER
+   ===================================================== */
 
 .header {
   background: white;
   border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
-  z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  z-index: 1500;
+  box-shadow: var(--shadow-sm);
 }
 
-.header nav {
+
+/* NAV WRAPPER */
+
+.header .nav-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
-  height: 60px;
-  max-width: 1400px;
-  margin: 0 auto;
+  min-height: 64px;
+  height: auto;
 }
 
-/* ============================= */
-/* LOGO */
-/* ============================= */
+
+/* =====================================================
+   LOGO
+   ===================================================== */
 
 .logo {
+  display: flex;
+  align-items: center;
   flex-shrink: 0;
 }
 
 .logo h1 {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin: 0;
-  padding: 0;
 }
 
-.logo a {
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-}
 
-/* ============================= */
-/* NAVIGATION CONTAINER */
-/* ============================= */
+/* =====================================================
+   NAVIGATION
+   ===================================================== */
 
 .nav {
   display: flex;
   align-items: center;
-  gap: 40px;
-  flex: 1;
-  justify-content: center;
 }
 
-/* ============================= */
-/* NAV LINKS */
-/* ============================= */
+
+/* NAV LINKS LIST */
 
 .nav-links {
+  list-style: none;
   display: flex;
   align-items: center;
-  gap: 30px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  gap: 22px;
 }
+
+
+/* NAV LINK */
 
 .nav-links a {
   font-size: 14px;
   font-weight: 500;
   color: var(--text-dark);
   padding: 8px 12px;
-  border-radius: 6px;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  position: relative;
+  border-radius: var(--radius-sm);
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
 }
 
-.nav-links a::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--primary-color);
-  transition: width 0.3s ease;
-}
+
+/* HOVER */
 
 .nav-links a:hover {
   color: var(--primary-color);
+  background: rgba(29, 112, 184, 0.12);
 }
 
-.nav-links a:hover::after {
-  width: 100%;
-}
 
-/* ============================= */
-/* ACTIVE LINK */
-/* ============================= */
+/* ACTIVE PAGE */
 
 .nav-links a.active {
   color: var(--primary-color);
   font-weight: 600;
 }
 
-.nav-links a.active::after {
-  width: 100%;
+.nav-links,
+.nav-links::-webkit-scrollbar {
+  scrollbar-width: none; /* Firefox */
 }
 
-/* ============================= */
-/* AUTH LINKS */
-/* ============================= */
+.nav-links::-webkit-scrollbar {
+  display: none; /* Chrome, Edge, Safari */
+}
+
+
+/* =====================================================
+   AUTH LINKS
+   ===================================================== */
 
 .auth-links {
   display: flex;
-  gap: 12px;
-  align-items: center;
-  margin-left: auto;
-}
-
-/* ============================= */
-/* USER MENU */
-/* ============================= */
-
-.user-menu {
-  position: relative;
-  display: flex;
   align-items: center;
   gap: 10px;
+  flex-direction: row;
+  padding-right: 16px;
 }
 
-.user-menu-toggle {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  color: var(--text-dark);
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: all 0.3s ease;
-}
 
-.user-menu-toggle:hover {
-  background: #f1f5ff;
-  color: var(--primary-color);
-}
-
-.user-menu-toggle::after {
-  content: "▼";
-  font-size: 10px;
-  transition: transform 0.3s ease;
-}
-
-.user-menu-toggle.open::after {
-  transform: rotate(180deg);
-}
-
-.user-dropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: white;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  min-width: 180px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  display: none;
-  list-style: none;
-  margin: 8px 0 0 0;
-  padding: 8px 0;
-  z-index: 1001;
-}
-
-.user-dropdown.show {
-  display: block;
-}
-
-.user-dropdown li {
-  margin: 0;
-}
-
-.user-dropdown a,
-.user-dropdown button {
-  display: block;
-  width: 100%;
-  text-align: left;
-  padding: 10px 16px;
-  font-size: 14px;
-  color: var(--text-dark);
-  text-decoration: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.user-dropdown a:hover,
-.user-dropdown button:hover {
-  background: #f1f5ff;
-  color: var(--primary-color);
-  padding-left: 20px;
-}
-
-.user-dropdown button {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 500;
-}
-
-/* ============================= */
-/* LOGIN BUTTON */
-/* ============================= */
+/* =====================================================
+   LOGIN BUTTON
+   ===================================================== */
 
 .btn-login {
-  padding: 8px 16px;
-  border-radius: 6px;
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
   border: 1.5px solid var(--primary-color);
   background: transparent;
   color: var(--primary-color);
   font-size: 14px;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
 }
 
 .btn-login:hover {
   background: var(--primary-color);
   color: white;
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
-/* ============================= */
-/* REGISTER BUTTON */
-/* ============================= */
+
+/* =====================================================
+   REGISTER BUTTON
+   ===================================================== */
 
 .btn-register {
-  padding: 8px 16px;
-  border-radius: 6px;
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
   background: var(--primary-color);
-  color: white;
+  color: #ffffff !important;
   font-size: 14px;
   font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
 }
 
 .btn-register:hover {
-  background: #1a68d1;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(44, 123, 229, 0.3);
+  background: var(--primary-light);
+  color: var(--primary-color) !important;
+  transform: translateY(-1px);
 }
 
-/* ============================= */
-/* LOGOUT BUTTON */
-/* ============================= */
 
-.btn-logout {
-  padding: 8px 16px;
-  border-radius: 6px;
-  background: #ffe5e5;
-  color: #dc3545;
+/* =====================================================
+   LOGOUT BUTTON
+   ===================================================== */
+
+#logoutBtn {
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--primary-color);
+  background: transparent;
+  color: var(--primary-color);
   font-size: 14px;
   font-weight: 600;
-  border: none;
+  font-family: "Poppins", sans-serif;
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: 'Poppins', sans-serif;
+  transition: all 0.25s ease;
 }
 
-.btn-logout:hover {
-  background: #dc3545;
+#logoutBtn:hover {
+  background: var(--primary-color);
   color: white;
-  transform: translateY(-2px);
 }
 
-/* ============================= */
-/* MOBILE NAV BUTTON */
-/* ============================= */
+
+/* =====================================================
+   NAV ITEM VISIBILITY
+   (nav.js controls display)
+   ===================================================== */
+
+#navBookmarks,
+#navBookings,
+#navAdmin {
+  transition: opacity 0.2s ease;
+}
+
+
+/* =====================================================
+   MOBILE NAV PLACEHOLDER
+   (actual responsive rules go in responsive.css)
+   ===================================================== */
 
 .mobile-nav-toggle {
   display: none;
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: var(--text-dark);
-}
-
-/* ============================= */
-/* RESPONSIVE DESIGN */
-/* ============================= */
-
-@media (max-width: 768px) {
-  .header nav {
-    padding: 0 15px;
-  }
-
-  .logo h1 {
-    font-size: 20px;
-  }
-
-  .nav {
-    gap: 20px;
-  }
-
-  .nav-links {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    gap: 0;
-    background: white;
-    border-bottom: 1px solid var(--border-color);
-    padding: 15px 0;
-  }
-
-  .nav-links.show {
-    display: flex;
-  }
-
-  .nav-links a {
-    padding: 12px 20px;
-    border-radius: 0;
-  }
-
-  .mobile-nav-toggle {
-    display: block;
-    order: 2;
-  }
-
-  .auth-links {
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-    padding: 15px 20px;
-  }
-
-  .btn-login,
-  .btn-register {
-    width: 100%;
-    text-align: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .header nav {
-    height: 56px;
-    padding: 0 12px;
-  }
-
-  .logo h1 {
-    font-size: 18px;
-  }
-
-  .nav-links {
-    gap: 10px;
-  }
-
-  .nav-links a {
-    font-size: 13px;
-    padding: 10px 15px;
-  }
-
-  .user-dropdown {
-    min-width: 150px;
-  }
 }
